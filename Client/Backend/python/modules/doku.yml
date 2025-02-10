@@ -61,19 +61,19 @@ paths:
                         items:
                           type: object
                           properties:
-                            allergene:
+                            allergies:
                               type: array
                               items:
                                 type: string
-                            gesund:
+                            healthy:
                               type: boolean
-                            heiß_oder_kalt:
+                            hotOrCold:
                               type: string
                             name:
                               type: string
-                            zubereitung:
+                            howToCook:
                               type: string
-                            zutaten:
+                            ingredients:
                               type: array
                               items:
                                 type: string

@@ -1,34 +1,25 @@
-from helpers.key import ninja_key
+
 import requests
 import json
 from helpers.key import key,realm
-from helpers.config import additional_ingredient_prompt
+from helpers.key import ninja_key
+from helpers.config import image_analyse_prompt
 from helpers.JsonFormatter import JsonFormatter
 class AdditionalIngredientGenerator(): 
 
     standartPromt = None
-    system_prompt =  ""
+    system_prompt = image_analyse_prompt
 
     def __init__(self):
         pass
     
-    def generateResponse(self, user_input, user_additional_ingredient):
+    def generateResponse(self, image_url):
         
 
-
         api_url = 'https://api.api-ninjas.com/v1/imagetotext'
-        image_file_descriptor = open('YOUR_IMAGE.jpeg', 'rb')
+        image_file_descriptor = open(image_url, 'rb')
         files = {'image': image_file_descriptor}
         r = requests.post(api_url, files=files, headers={'X-Api-Key': ninja_key})
-        print(r.json())
-
-
-
-
-
-
-
-        self.system_prompt = additional_ingredient_prompt.replace("x", str(user_additional_ingredient))
         self.standartPromt = [
             ["system", self.system_prompt]
         ]
@@ -39,7 +30,7 @@ class AdditionalIngredientGenerator():
         }
         payload = {
             "realm_id": realm,  # Replace with your actual realm ID
-            "prompt": f'"{user_input}"',
+            "prompt": f'"{r.json()}"',
             "history":  self.standartPromt,
             "system_prompt":""
         }

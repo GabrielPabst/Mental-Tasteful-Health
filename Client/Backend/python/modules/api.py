@@ -1,4 +1,5 @@
 import json
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from WinkkClient.RecipeGenerator import RecipeGenerator
@@ -6,6 +7,8 @@ from WinkkClient.IngredientAnalyser import IngredientAnalyser
 from WinkkClient.AdditionalIngredientGenerator import AdditionalIngredientGenerator
 from helpers.JsonFormatter import JsonFormatter
 app = Flask(__name__)
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 CORS(app)
 
 # Endpoint 1: Get recipes based on ingredients
@@ -36,5 +39,18 @@ def additional_ingredients():
     add = AdditionalIngredientGenerator()
     filtered_ingredients = add.generateResponse(" ".join(ingredients), 2)
     return jsonify({"additional_ingredients": filtered_ingredients})
+@app.route('/analyze_image', methods=['POST'])
+def analyze_image():
+    if 'image' not in request.files:
+            return jsonify({"error": "No image file provided"}), 400
+
+    image_file = request.files['image']
+    image_path = os.path.join(UPLOAD_FOLDER, image_file.filename)
+    image_file.save(image_path)
+
+    generator = AdditionalIngredientGenerator()
+    response = generator.generateResponse(image_path)
+        
+    return jsonify({"analysis": response})
 if __name__ == '__main__':
     app.run(debug=True)

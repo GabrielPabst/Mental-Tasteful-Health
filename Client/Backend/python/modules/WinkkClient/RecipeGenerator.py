@@ -9,14 +9,14 @@ class RecipeGenerator():
     system_prompt = recipe_prompt
 
     formatting = """ Beispiel-JSON:
-    "rezepte": [
+    "recipies": [
         {
             "name": "Würziges Rindfleisch mit Ananas",
-            "zutaten": ["Rindfleisch", "Ananas", "Chilipulver", "Sojasauce"],
-            "zubereitung": "Rindfleisch in Streifen schneiden und in einer Pfanne anbraten. Ananaswürfel hinzufügen und mit Sojasauce und Chilipulver würzen. Kurz köcheln lassen und heiß servieren.",
-            "allergene": ["Soja"],
-            "gesund": true,
-            "heiß_oder_kalt": "heiß"
+            "ingredients": ["Rindfleisch", "Ananas", "Chilipulver", "Sojasauce"],
+            "howToCook": "Rindfleisch in Streifen schneiden und in einer Pfanne anbraten. Ananaswürfel hinzufügen und mit Sojasauce und Chilipulver würzen. Kurz köcheln lassen und heiß servieren.",
+            "allergies": ["Soja"],
+            "healthy": true,
+            "hotOrCold": "heiß"
         }]
     """
 
