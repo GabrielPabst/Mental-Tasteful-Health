@@ -5,7 +5,7 @@ from helpers.key import key,realm
 from helpers.key import ninja_key
 from helpers.config import image_analyse_prompt
 from helpers.JsonFormatter import JsonFormatter
-class AdditionalIngredientGenerator(): 
+class ImageAnalyser(): 
 
     standartPromt = None
     system_prompt = image_analyse_prompt
@@ -14,8 +14,6 @@ class AdditionalIngredientGenerator():
         pass
     
     def generateResponse(self, image_url):
-        
-
         api_url = 'https://api.api-ninjas.com/v1/imagetotext'
         image_file_descriptor = open(image_url, 'rb')
         files = {'image': image_file_descriptor}

@@ -102,3 +102,37 @@ paths:
                     type: array
                     items:
                       type: string
+  /analyze_image:
+    post:
+      summary: Analyze image to get ingredients
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ingredients:
+                    type: string
+                    example: "Knorr Fixeinbrenn, Erdapfel speckig, Eierknopfle, High Protein Quark, Philadelphia Kréuter"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "No image file provided"                 
