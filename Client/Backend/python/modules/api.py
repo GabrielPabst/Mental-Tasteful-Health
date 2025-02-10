@@ -5,12 +5,11 @@ from flask_cors import CORS
 from WinkkClient.RecipeGenerator import RecipeGenerator
 from WinkkClient.IngredientAnalyser import IngredientAnalyser
 from WinkkClient.AdditionalIngredientGenerator import AdditionalIngredientGenerator
-from WinkkClient.ImageAnalyser import ImageAnalyser
 from helpers.JsonFormatter import JsonFormatter
 app = Flask(__name__)
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Endpoint 1: Get recipes based on ingredients
 @app.route('/get_recipes', methods=['POST'])
@@ -49,10 +48,9 @@ def analyze_image():
     image_path = os.path.join(UPLOAD_FOLDER, image_file.filename)
     image_file.save(image_path)
 
-    generator = ImageAnalyser()
+    generator = AdditionalIngredientGenerator()
     response = generator.generateResponse(image_path)
-    ingredient_analyser = IngredientAnalyser()
-    response = ingredient_analyser.generateResponse(response)
-    return jsonify({"ingredients": response})
+        
+    return jsonify({"analysis": response})
 if __name__ == '__main__':
     app.run(debug=True)
