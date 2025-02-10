@@ -1,17 +1,15 @@
-# Test for /get_recipes endpoint
+### Test for /get_recipes endpoint
 POST http://127.0.0.1:5000/get_recipes
 Content-Type: application/json
 
 {
-  "ingredients": ["tomato", "lettuce"]
+  "ingredients": [ "lettuce", "tomato", "cheese", "sausage"]
 }
 
----
-
-# Test for /filter_ingredients endpoint
+### Test for /filter_ingredients endpoint
 POST http://127.0.0.1:5000/filter_ingredients
 Content-Type: application/json
 
 {
-  "ingredients": ["tomato", "cheese", "tomato", "garlic"]
+  "ingredients": ["tomato", "cheese", "tomato", "garlic", "Flugzeugteil45678"]
 }

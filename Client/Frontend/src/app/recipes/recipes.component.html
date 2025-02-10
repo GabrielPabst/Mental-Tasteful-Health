@@ -1,0 +1,11 @@
+<div class="ingredient-input-container">
+  <textarea [(ngModel)]="ingredients" placeholder="Zutaten eingeben..."></textarea>
+  <button (click)="searchIngredients()">Suche</button>
+</div>
+
+<div class="filtered-ingredients">
+  <div *ngFor="let ingredient of ingredientList(); let i = index" class="ingredient">
+    {{ ingredient }}
+  </div>
+</div>
+

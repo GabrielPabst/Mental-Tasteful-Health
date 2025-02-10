@@ -1,11 +1,12 @@
 import json
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from WinkkClient.RecipeGenerator import RecipeGenerator
 from WinkkClient.IngredientAnalyser import IngredientAnalyser
 from WinkkClient.AdditionalIngredientGenerator import AdditionalIngredientGenerator
 from helpers.JsonFormatter import JsonFormatter
 app = Flask(__name__)
-
+CORS(app)
 
 # Endpoint 1: Get recipes based on ingredients
 @app.route('/get_recipes', methods=['POST'])
