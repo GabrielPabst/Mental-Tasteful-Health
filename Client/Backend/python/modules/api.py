@@ -2,6 +2,7 @@ import json
 from flask import Flask, request, jsonify
 from WinkkClient.RecipeGenerator import RecipeGenerator
 from WinkkClient.IngredientAnalyser import IngredientAnalyser
+from WinkkClient.AdditionalIngredientGenerator import AdditionalIngredientGenerator
 from helpers.JsonFormatter import JsonFormatter
 app = Flask(__name__)
 
@@ -27,5 +28,12 @@ def filter_ingredients():
     filtered_ingredients = ingredient_analyser.generateResponse(" ".join(ingredients))
     return jsonify({"filtered_ingredients": filtered_ingredients})
 
+@app.route('/additional_ingredients', methods=['POST'])
+def additional_ingredients():
+    ingredients = request.json.get('ingredients', [])
+
+    add = AdditionalIngredientGenerator()
+    filtered_ingredients = add.generateResponse(" ".join(ingredients), 2)
+    return jsonify({"additional_ingredients": filtered_ingredients})
 if __name__ == '__main__':
     app.run(debug=True)

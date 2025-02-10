@@ -1,3 +1,4 @@
+from helpers.key import ninja_key
 import requests
 import json
 from helpers.key import key,realm
@@ -12,6 +13,21 @@ class AdditionalIngredientGenerator():
         pass
     
     def generateResponse(self, user_input, user_additional_ingredient):
+        
+
+
+        api_url = 'https://api.api-ninjas.com/v1/imagetotext'
+        image_file_descriptor = open('YOUR_IMAGE.jpeg', 'rb')
+        files = {'image': image_file_descriptor}
+        r = requests.post(api_url, files=files, headers={'X-Api-Key': ninja_key})
+        print(r.json())
+
+
+
+
+
+
+
         self.system_prompt = additional_ingredient_prompt.replace("x", str(user_additional_ingredient))
         self.standartPromt = [
             ["system", self.system_prompt]

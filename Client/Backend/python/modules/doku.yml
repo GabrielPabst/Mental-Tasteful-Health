@@ -77,3 +77,28 @@ paths:
                               type: array
                               items:
                                 type: string
+
+  /get_additional_ingredients: 
+    post:
+      summary: Get additional ingredients for recipe
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipe:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  additional_ingredients:
+                    type: array
+                    items:
+                      type: string
