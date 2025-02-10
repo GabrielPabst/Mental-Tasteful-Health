@@ -29,3 +29,6 @@ env/
 # Ignore VS Code specific files
 .vscode/
 .history/
+
+# Ignore key.py file
+key.py

@@ -1,0 +1,79 @@
+openapi: '3.0.3'
+info:
+  title: Recipe API
+  version: '1.0'
+servers:
+  - url: http://127.0.0.1:5000
+paths:
+  /filter_ingredients:
+    post:
+      summary: Filter data to recipes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ingredients:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  filtered_ingredients:
+                    type: string
+                    example: "Tomaten, Salat"
+        
+  /get_recipes:
+    post:
+      summary: Get recipes from ingredients
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ingredients:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recipes:
+                    type: object
+                    properties:
+                      rezepte:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            allergene:
+                              type: array
+                              items:
+                                type: string
+                            gesund:
+                              type: boolean
+                            heiß_oder_kalt:
+                              type: string
+                            name:
+                              type: string
+                            zubereitung:
+                              type: string
+                            zutaten:
+                              type: array
+                              items:
+                                type: string
