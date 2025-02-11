@@ -1,10 +1,12 @@
 import json
+import re
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from WinkkClient.RecipeGenerator import RecipeGenerator
 from WinkkClient.IngredientAnalyser import IngredientAnalyser
 from WinkkClient.AdditionalIngredientGenerator import AdditionalIngredientGenerator
+from WinkkClient.DetailGenerator import DetailGenerator
 from helpers.JsonFormatter import JsonFormatter
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -54,6 +56,17 @@ def analyze_image():
     response = generator.generateResponse(image_path)
         
     return jsonify({"analysis": response})
+
+# Endpoint: Generate detailed recipe
+@app.route('/generate_detailed_recipe', methods=['POST'])
+def generate_detailed_recipe():
+    user_input = request.json
+    
+    generator = DetailGenerator()
+    response = generator.generateResponse(user_input, "all")
+    response = re.sub(r"```json|```", "", response).strip()
+    response = json.loads(response)
+    return jsonify({"detailed_recipe": response})
 
 def get_db_connection():
     conn = psycopg2.connect(

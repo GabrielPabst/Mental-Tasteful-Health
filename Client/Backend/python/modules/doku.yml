@@ -153,7 +153,63 @@ paths:
                 properties:
                   error:
                     type: string
-
+  /generate_detailed_recipe:
+    post:
+      tags:
+        - Recipes
+      summary: Generate detailed recipe
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                ingredients:
+                  type: array
+                  items:
+                    type: string
+                howToCook:
+                  type: string
+                allergies:
+                  type: array
+                  items:
+                    type: string
+                healthy:
+                  type: boolean
+                hotOrCold:
+                  type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detailed_recipe:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      ingredients:
+                        type: array
+                        items:
+                          type: string
+                      detailed_steps:
+                        type: array
+                        items:
+                          type: string
+                      allergies:
+                        type: array
+                        items:
+                          type: string
+                      healthy:
+                        type: boolean
+                      hotOrCold:
+                        type: string
   /fav-recipes/add:
     post:
       tags:
