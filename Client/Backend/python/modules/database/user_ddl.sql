@@ -5,6 +5,7 @@ CREATE TABLE users(
     email varchar(320) NOT NULL,
     name varchar(255),
     profile_picture text,
+    nutriscore integer DEFAULT 0,
     PRIMARY KEY(id)
 );
 CREATE UNIQUE INDEX users_google_id_key ON users USING btree ("google_id");

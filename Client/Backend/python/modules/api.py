@@ -257,7 +257,39 @@ def delete_user(id):
         if deleted_id is None:
             return jsonify({"error": "User not found"}), 404
         return jsonify({"id": deleted_id[0]}), 200
+# Endpoint: Update nutriscore by user ID
+@app.route('/users/<int:id>/update/nutriscore', methods=['POST'])
+def update_nutriscore(id):
+    new_nutriscore = request.json.get('nutriscore')
+    if new_nutriscore is None:
+        return jsonify({"error": "Nutriscore is required"}), 400
 
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        'UPDATE users SET nutriscore = %s WHERE id = %s RETURNING id',
+        (new_nutriscore, id)
+    )
+    updated_id = cursor.fetchone()
+    conn.commit()
+    cursor.close()
+    conn.close()
+    if updated_id is None:
+        return jsonify({"error": "User not found"}), 404
+    return jsonify({"id": updated_id[0]}), 200
+
+# Endpoint: Get nutriscore by user ID
+@app.route('/users/<int:id>/get/nutriscore', methods=['GET'])
+def get_nutriscore(id):
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    cursor.execute('SELECT nutriscore FROM users WHERE id = %s', (id,))
+    nutriscore = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if nutriscore is None:
+        return jsonify({"error": "User not found"}), 404
+    return jsonify(nutriscore)
 
 
 if __name__ == '__main__':
