@@ -1,7 +1,7 @@
 /* 🌟 Hauptcontainer breiter und flexibler */
 .container {
   width: 100%;
-  max-width: 1400px; /* Größer auf großen Bildschirmen */
+  max-width: 1400px;
   margin: auto;
   padding: 20px;
 }
@@ -12,7 +12,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 1000px; /* Größer auf großen Screens */
+  max-width: 1000px;
   margin: auto;
 }
 
@@ -59,14 +59,14 @@ button:hover {
   justify-content: center;
   gap: 20px;
   width: 100%;
-  max-width: 1600px; /* Mehr Platz für große Bildschirme */
+  max-width: 1600px;
   margin: auto;
 }
 
 /* Einzelne Rezeptkarte */
 .recipe-card {
   width: 100%;
-  max-width: 600px; /* Rezeptkarten größer */
+  max-width: 600px;
   background: white;
   padding: 20px;
   border-radius: 10px;
