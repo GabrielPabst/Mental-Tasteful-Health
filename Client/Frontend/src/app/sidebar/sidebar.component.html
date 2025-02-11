@@ -1,0 +1,8 @@
+<div class="sidebar" [class.closed]="!isOpen()">
+  <button class="toggle-btn" (click)="toggleSidebar()">☰</button>
+  <ul>
+    <li><a (click)="navigateToLogin()">Login keine Ahnung</a></li>
+    <li><a (click)="navigateToRefrigerator()">Kühlschrank</a></li>
+    <li><a (click)="navigateToRecipes()">Rezepte</a></li>
+  </ul>
+</div>
