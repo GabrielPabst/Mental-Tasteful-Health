@@ -7,8 +7,8 @@
 <div class="filtered-ingredients">
   <h3>Gefilterte Zutaten:</h3>
   <ul>
-    <li *ngFor="let ingredient of ingredientList()">
-      {{ ingredient }}
-    </li>
+    @for(ingredient of ingredientList(); track ingredient) {
+      <li>{{ ingredient }}</li>
+    }
   </ul>
 </div>

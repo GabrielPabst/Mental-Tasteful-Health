@@ -3,10 +3,9 @@ import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [
-    RouterLink
-  ],
+  imports: [],
   templateUrl: './sidebar.component.html',
+  standalone: true,
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {

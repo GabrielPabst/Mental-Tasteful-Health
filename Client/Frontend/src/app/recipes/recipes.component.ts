@@ -6,11 +6,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-recipes',
   standalone: true,
-  imports: [
-    FormsModule,
-    NgForOf,
-    NgIf
-  ],
+  imports: [FormsModule],
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.css']
 })
