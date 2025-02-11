@@ -7,6 +7,7 @@ from WinkkClient.RecipeGenerator import RecipeGenerator
 from WinkkClient.IngredientAnalyser import IngredientAnalyser
 from WinkkClient.AdditionalIngredientGenerator import AdditionalIngredientGenerator
 from WinkkClient.DetailGenerator import DetailGenerator
+from WinkkClient.ImageAnalyser import ImageAnalyser
 from helpers.JsonFormatter import JsonFormatter
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -19,9 +20,10 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 @app.route('/get_recipes', methods=['POST'])
 def get_recipes():
     ingredients = request.json.get('ingredients', [])
-    
+    preffered_cuisine = request.json.get('cuisine',"all")
     # Find recipes that include all ingredients
-    matching_recipes = RecipeGenerator().generateResponse(" ".join(ingredients), "all")
+    matching_recipes = RecipeGenerator().generateResponse(" ".join(ingredients), preffered_cuisine)
+    print(preffered_cuisine)
     matching_recipes = JsonFormatter(matching_recipes).remove_backticks()
     print(matching_recipes)
     try:
@@ -57,9 +59,10 @@ def analyze_image():
     image_path = os.path.join(UPLOAD_FOLDER, image_file.filename)
     image_file.save(image_path)
 
-    generator = AdditionalIngredientGenerator()
+    generator = ImageAnalyser()
+    ingredient_analyser = IngredientAnalyser()
     response = generator.generateResponse(image_path)
-        
+    response = ingredient_analyser.generateResponse(response)
     return jsonify({"analysis": response})
 
 # Endpoint: Generate detailed recipe
@@ -113,8 +116,8 @@ def add_recipe():
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute(
-            'INSERT INTO fav_recipe (name, ingredients, how_to_cook, allergies, healthy, hot_or_cold) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id',
-            (new_recipe['name'], new_recipe['ingredients'], new_recipe['howToCook'], new_recipe['allergies'], new_recipe['healthy'], new_recipe['hotOrCold'])
+            'INSERT INTO fav_recipe (name, ingredients, how_to_cook, allergies, healthy, hot_or_cold, user_id) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id',
+            (new_recipe['name'], new_recipe['ingredients'], new_recipe['howToCook'], new_recipe['allergies'], new_recipe['healthy'], new_recipe['hotOrCold'], new_recipe['userID'])
         )
         recipe_id = cursor.fetchone()[0]
         conn.commit()
@@ -257,7 +260,39 @@ def delete_user(id):
         if deleted_id is None:
             return jsonify({"error": "User not found"}), 404
         return jsonify({"id": deleted_id[0]}), 200
+# Endpoint: Update nutriscore by user ID
+@app.route('/users/<int:id>/update/nutriscore', methods=['POST'])
+def update_nutriscore(id):
+    new_nutriscore = request.json.get('nutriscore')
+    if new_nutriscore is None:
+        return jsonify({"error": "Nutriscore is required"}), 400
 
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        'UPDATE users SET nutriscore = %s WHERE id = %s RETURNING id',
+        (new_nutriscore, id)
+    )
+    updated_id = cursor.fetchone()
+    conn.commit()
+    cursor.close()
+    conn.close()
+    if updated_id is None:
+        return jsonify({"error": "User not found"}), 404
+    return jsonify({"id": updated_id[0]}), 200
+
+# Endpoint: Get nutriscore by user ID
+@app.route('/users/<int:id>/get/nutriscore', methods=['GET'])
+def get_nutriscore(id):
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    cursor.execute('SELECT nutriscore FROM users WHERE id = %s', (id,))
+    nutriscore = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if nutriscore is None:
+        return jsonify({"error": "User not found"}), 404
+    return jsonify(nutriscore)
 
 
 if __name__ == '__main__':

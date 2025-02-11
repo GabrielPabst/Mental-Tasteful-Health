@@ -58,6 +58,8 @@ paths:
                   type: array
                   items:
                     type: string
+                cuisine:
+                  type: string
       responses:
         "200":
           description: OK
@@ -238,6 +240,8 @@ paths:
                   type: boolean
                 hotOrCold:
                   type: string
+                userID:
+                  type: number
       responses:
         "201":
           description: Created
@@ -291,6 +295,8 @@ paths:
                       type: boolean
                     hotOrCold:
                       type: string
+                    userID:
+                      type: number
 
   /fav-recipes/{id}:
     get:
@@ -329,6 +335,8 @@ paths:
                     type: boolean
                   hotOrCold:
                     type: string
+                  userID:
+                    type: number
         "404":
           description: Not Found
           content:
@@ -691,6 +699,85 @@ paths:
                 type: object
                 properties:
                   id:
+                    type: integer
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /users/{id}/update/nutriscore:
+    post:
+      tags:
+        - Users
+      summary: Update nutriscore by user ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nutriscore:
+                  type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /users/{id}/get/nutriscore:
+    get:
+      tags:
+        - Users
+      summary: Get nutriscore by user ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nutriscore:
                     type: integer
         "404":
           description: Not Found
