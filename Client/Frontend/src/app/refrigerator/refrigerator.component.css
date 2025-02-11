@@ -1,0 +1,89 @@
+.refrigerator-content {
+  display: flex;
+  flex-direction: column;
+  align-items: normal;
+  gap: 1.5rem;
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.ingredient-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.ingredient-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.ingredient-list li:hover {
+  background: #f1f1f1;
+}
+
+.ingredient-list li.selected {
+  background: #d4edda;
+  color: #155724;
+  font-weight: bold;
+}
+
+.ingredient-list li input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.generate-button {
+  background: #007bff;
+  color: white;
+  font-size: 1.2rem;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.generate-button:hover {
+  background: #0056b3;
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 600px) {
+  .refrigerator-content {
+    max-width: 90%;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .ingredient-list li {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  .generate-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,14 @@
+<div class="refrigerator-content">
+  <h1>🧊 Mein Kühlschrank</h1>
+
+  <ul class="ingredient-list">
+    @for (ingredient of ingridientsList(); track ingredient[0]){
+      <li (click)="selectIngrident(ingredient[0])" [class.selected]="ingredient[1]">
+        <span>{{ ingredient[0] }}</span>
+        <input type="checkbox" [checked]="ingredient[1]" readonly>
+      </li>
+    }
+  </ul>
+
+  <button class="generate-button" (click)="generateMeal()">🍽️ Mahlzeit generieren</button>
+</div>
