@@ -7,6 +7,7 @@ from WinkkClient.RecipeGenerator import RecipeGenerator
 from WinkkClient.IngredientAnalyser import IngredientAnalyser
 from WinkkClient.AdditionalIngredientGenerator import AdditionalIngredientGenerator
 from WinkkClient.DetailGenerator import DetailGenerator
+from WinkkClient.ImageAnalyser import ImageAnalyser
 from helpers.JsonFormatter import JsonFormatter
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -58,9 +59,10 @@ def analyze_image():
     image_path = os.path.join(UPLOAD_FOLDER, image_file.filename)
     image_file.save(image_path)
 
-    generator = AdditionalIngredientGenerator()
+    generator = ImageAnalyser()
+    ingredient_analyser = IngredientAnalyser()
     response = generator.generateResponse(image_path)
-        
+    response = ingredient_analyser.generateResponse(response)
     return jsonify({"analysis": response})
 
 # Endpoint: Generate detailed recipe
