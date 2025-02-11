@@ -32,25 +32,17 @@
   </div>
 
   <!-- Modal für das detaillierte Rezept -->
-  <div class="modal-overlay" *ngIf="detailedRecipe()">
-    <div class="modal">
+  <div class="modal-overlay" *ngIf="detailedRecipe()" (click)="closeModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
       <button class="close-button" (click)="closeModal()">Schließen</button>
-      <h2>{{ detailedRecipe()?.name }}</h2>
-      <h3>Detaillierte Schritte:</h3>
-      <ol>
-        <li *ngFor="let step of detailedRecipe()?.detailed_steps">
-          {{ step }}
-        </li>
-      </ol>
-      <h4>Zutaten:</h4>
-      <ul>
-        <li *ngFor="let ingredient of detailedRecipe()?.ingredients">
-          {{ ingredient }}
-        </li>
-      </ul>
-      <p><strong>Allergien:</strong> {{ detailedRecipe()?.allergies.join(', ') }}</p>
-      <p><strong>Gesund:</strong> {{ detailedRecipe()?.healthy ? 'Ja' : 'Nein' }}</p>
-      <p><strong>Heiß oder kalt:</strong> {{ detailedRecipe()?.hotOrCold }}</p>
+      <h2 class="recipe-title">{{ detailedRecipe()?.name }}</h2>
+      <div class="recipe-steps">
+        <h3>Schritte</h3>
+        <!-- Statt einer geordneten Liste (ol) nutzen wir divs oder p-Tags für jeden Schritt -->
+        <div *ngFor="let step of detailedRecipe()?.detailed_steps" class="recipe-step">
+          <p>{{ step }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
