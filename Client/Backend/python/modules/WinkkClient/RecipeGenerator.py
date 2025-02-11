@@ -9,7 +9,7 @@ class RecipeGenerator():
     system_prompt = recipe_prompt
 
     formatting = """ Beispiel-JSON:
-    "recipies": [
+    {"recipies": [
         {
             "name": "Würziges Rindfleisch mit Ananas",
             "ingredients": ["Rindfleisch", "Ananas", "Chilipulver", "Sojasauce"],
@@ -18,6 +18,7 @@ class RecipeGenerator():
             "healthy": true,
             "hotOrCold": "heiß"
         }]
+    }
     """
 
 

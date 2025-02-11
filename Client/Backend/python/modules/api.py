@@ -19,22 +19,18 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 @app.route('/get_recipes', methods=['POST'])
 def get_recipes():
     ingredients = request.json.get('ingredients', [])
-    max_retries = 5  # Define max retries
-    attempt = 0
     
-    while attempt < max_retries:
-        attempt += 1
-        matching_recipes = RecipeGenerator().generateResponse(" ".join(ingredients), "all")
-        matching_recipes = JsonFormatter(matching_recipes).remove_backticks()
-        print(attempt)
-        try:
-            matching_recipes = json.loads(matching_recipes)
-            return jsonify({"recipes": matching_recipes})  # Success, return response
-        except json.JSONDecodeError:
-            if attempt == max_retries:
-                return jsonify({"error": "Failed to decode JSON after multiple attempts"}), 500
-    
-    return jsonify({"error": "Unexpected error"}), 500
+    # Find recipes that include all ingredients
+    matching_recipes = RecipeGenerator().generateResponse(" ".join(ingredients), "all")
+    matching_recipes = JsonFormatter(matching_recipes).remove_backticks()
+    print(matching_recipes)
+    try:
+        print(matching_recipes)
+        matching_recipes = json.loads(matching_recipes)
+    except json.JSONDecodeError:
+        print(matching_recipes)
+        return jsonify({"error": "Failed to decode JSON"}), 500
+    return jsonify({"recipes": matching_recipes})
 
 # Endpoint 2: Filter ingredients array (removing duplicates)
 @app.route('/filter_ingredients', methods=['POST'])
@@ -70,23 +66,12 @@ def analyze_image():
 @app.route('/generate_detailed_recipe', methods=['POST'])
 def generate_detailed_recipe():
     user_input = request.json
-    max_retries = 5  # Define max retries
-    attempt = 0
     
-    while attempt < max_retries:
-        attempt += 1
-        generator = DetailGenerator()
-        response = generator.generateResponse(user_input, "all")
-        response = re.sub(r"```json|```", "", response).strip()
-        print(attempt)
-        try:
-            response = json.loads(response)
-            return jsonify({"detailed_recipe": response})  # Success, return response
-        except json.JSONDecodeError:
-            if attempt == max_retries:
-                return jsonify({"error": "Failed to decode JSON after multiple attempts"}), 500
-    
-    return jsonify({"error": "Unexpected error"}), 500
+    generator = DetailGenerator()
+    response = generator.generateResponse(user_input, "all")
+    response = re.sub(r"```json|```", "", response).strip()
+    response = json.loads(response)
+    return jsonify({"detailed_recipe": response})
 
 def get_db_connection():
     conn = psycopg2.connect(
