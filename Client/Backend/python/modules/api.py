@@ -116,8 +116,8 @@ def add_recipe():
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute(
-            'INSERT INTO fav_recipe (name, ingredients, how_to_cook, allergies, healthy, hot_or_cold) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id',
-            (new_recipe['name'], new_recipe['ingredients'], new_recipe['howToCook'], new_recipe['allergies'], new_recipe['healthy'], new_recipe['hotOrCold'])
+            'INSERT INTO fav_recipe (name, ingredients, how_to_cook, allergies, healthy, hot_or_cold, user_id) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id',
+            (new_recipe['name'], new_recipe['ingredients'], new_recipe['howToCook'], new_recipe['allergies'], new_recipe['healthy'], new_recipe['hotOrCold'], new_recipe['userID'])
         )
         recipe_id = cursor.fetchone()[0]
         conn.commit()

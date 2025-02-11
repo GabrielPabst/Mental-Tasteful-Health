@@ -7,7 +7,9 @@ CREATE TABLE fav_recipe(
     allergies text[],
     healthy boolean,
     hot_or_cold varchar(10),
-    PRIMARY KEY(id)
+    user_id integer,
+    PRIMARY KEY(id),
+    CONSTRAINT fav_recipe_user_id_fkey FOREIGN key(user_id) REFERENCES users(id)
 );
 COMMENT ON COLUMN fav_recipe.name IS 'Name of the recipe';
 COMMENT ON COLUMN fav_recipe.ingredients IS 'List of ingredients';
