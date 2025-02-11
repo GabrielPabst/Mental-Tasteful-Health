@@ -19,9 +19,10 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 @app.route('/get_recipes', methods=['POST'])
 def get_recipes():
     ingredients = request.json.get('ingredients', [])
-    
+    preffered_cuisine = request.json.get('cuisine',"all")
     # Find recipes that include all ingredients
-    matching_recipes = RecipeGenerator().generateResponse(" ".join(ingredients), "all")
+    matching_recipes = RecipeGenerator().generateResponse(" ".join(ingredients), preffered_cuisine)
+    print(preffered_cuisine)
     matching_recipes = JsonFormatter(matching_recipes).remove_backticks()
     print(matching_recipes)
     try:
