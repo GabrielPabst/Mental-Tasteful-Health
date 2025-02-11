@@ -240,6 +240,8 @@ paths:
                   type: boolean
                 hotOrCold:
                   type: string
+                userID:
+                  type: number
       responses:
         "201":
           description: Created
@@ -293,6 +295,8 @@ paths:
                       type: boolean
                     hotOrCold:
                       type: string
+                    userID:
+                      type: number
 
   /fav-recipes/{id}:
     get:
@@ -331,6 +335,8 @@ paths:
                     type: boolean
                   hotOrCold:
                     type: string
+                  userID:
+                    type: number
         "404":
           description: Not Found
           content:

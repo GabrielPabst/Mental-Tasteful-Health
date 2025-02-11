@@ -5,8 +5,13 @@ CREATE TABLE users(
     email varchar(320) NOT NULL,
     name varchar(255),
     profile_picture text,
+<<<<<<< HEAD
+    nutriscore integer not null default 0,
+=======
     nutriscore integer DEFAULT 0,
+>>>>>>> 853f2714bcd7416fb17d48abf1dc93dd4e350958
     PRIMARY KEY(id)
 );
 CREATE UNIQUE INDEX users_google_id_key ON users USING btree ("google_id");
 CREATE UNIQUE INDEX users_email_key ON users USING btree ("email");
+

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 // Damit TypeScript die globale Variable "google" kennt:
 declare var google: any;
@@ -12,7 +13,9 @@ declare var google: any;
 export class LoginComponent implements OnInit {
 
   private googleAuthClient: any;
-  public isGoogleClientLoaded = false; // Optional: um den Button zu deaktivieren, solange der Client nicht geladen ist
+  public isGoogleClientLoaded = false; // um den Button zu deaktivieren, solange der Client nicht geladen ist
+
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.loadGoogleAuthScript();
@@ -20,7 +23,7 @@ export class LoginComponent implements OnInit {
 
   triggerGoogleLogin(): void {
     if (this.googleAuthClient) {
-      // Der Aufruf muss von einer Benutzeraktion (z.B. Button-Klick) erfolgen, damit Google ihn akzeptiert
+      // Der Aufruf muss von einer Benutzeraktion (z. B. Button-Klick) erfolgen, damit Google ihn akzeptiert
       this.googleAuthClient.requestAccessToken();
     } else {
       console.error("Google Auth Client nicht geladen!");
@@ -57,11 +60,43 @@ export class LoginComponent implements OnInit {
       callback: (response: any) => {
         // Dieser Callback wird nach erfolgreichem Login ausgeführt
         console.log("Google Login erfolgreich!", response);
-        alert("Login erfolgreich! Token: " + response.access_token);
+        // Mit dem Access Token holen wir die User-Infos von Google
+        this.fetchGoogleUserInfo(response.access_token);
       }
     });
 
-    // Optional: Markiere, dass der Client geladen wurde (z.B. um den Button zu aktivieren)
+    // Markiere, dass der Client geladen wurde (z. B. um den Button zu aktivieren)
     this.isGoogleClientLoaded = true;
+  }
+
+  private fetchGoogleUserInfo(accessToken: string): void {
+    // Anfrage an Google, um die Nutzerinformationen abzurufen
+    this.http.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    }).subscribe((userInfo: any) => {
+      console.log("Google User Info:", userInfo);
+      // Anschließend werden die Daten an das eigene Backend geschickt
+      this.addUserToBackend(userInfo);
+    }, error => {
+      console.error("Fehler beim Abrufen der User Info:", error);
+    });
+  }
+
+  private addUserToBackend(userInfo: any): void {
+    // Erstelle das Payload für den Backend-Endpoint
+    const payload = {
+      google_id: userInfo.sub,         // 'sub' enthält die eindeutige Google-ID
+      email: userInfo.email,
+      name: userInfo.name,
+      profile_picture: userInfo.picture
+    };
+
+    // Sende die Daten per POST an deinen Flask-Endpoint
+    this.http.post('http://localhost:5000/users/add', payload)
+      .subscribe((result: any) => {
+        console.log("User erfolgreich hinzugefügt:", result);
+      }, error => {
+        console.error("Fehler beim Hinzufügen des Users:", error);
+      });
   }
 }
