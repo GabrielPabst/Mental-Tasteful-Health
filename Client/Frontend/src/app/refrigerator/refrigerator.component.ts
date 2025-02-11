@@ -75,12 +75,21 @@ export class RefrigeratorComponent implements OnInit {
     // Testweise fixen Request, wie er im erfolgreichen Test verwendet wurde:
     const testIngredients = ["lettuce", "tomato", "cheese", "sausage"];
     console.log("Test Ingredients: ", testIngredients);
+    const uniqueIngredients = [
+      ...new Set(
+        this.ingredientsList()
+          .filter(([_, checked]) => checked)
+          .map(([name, _]) => name)
+      )
+    ];
+
+    console.log(uniqueIngredients);
 
     try {
       const response = await firstValueFrom(
         this.http.post<RecipiesResDto>(
           'http://127.0.0.1:5000/get_recipes',
-          { ingredients: testIngredients }
+          { ingredients: uniqueIngredients }
         )
       );
 
