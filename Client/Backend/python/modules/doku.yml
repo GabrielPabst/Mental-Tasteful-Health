@@ -1,12 +1,23 @@
-openapi: '3.0.3'
+openapi: "3.0.3"
 info:
   title: Recipe API
-  version: '1.0'
+  version: "1.0"
 servers:
   - url: http://127.0.0.1:5000
+tags:
+  - name: Recipes
+    description: Operations related to recipes
+  - name: Favorite Recipes
+    description: Operations related to favorite recipes
+  - name: Fridge
+    description: Operations related to fridge items
+  - name: Users
+    description: Operations related to users
 paths:
   /filter_ingredients:
     post:
+      tags:
+        - Recipes
       summary: Filter data to recipes
       requestBody:
         required: true
@@ -20,7 +31,7 @@ paths:
                   items:
                     type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -30,9 +41,11 @@ paths:
                   filtered_ingredients:
                     type: string
                     example: "Tomaten, Salat"
-        
+
   /get_recipes:
     post:
+      tags:
+        - Recipes
       summary: Get recipes from ingredients
       requestBody:
         required: true
@@ -46,7 +59,7 @@ paths:
                   items:
                     type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -78,8 +91,10 @@ paths:
                               items:
                                 type: string
 
-  /get_additional_ingredients: 
+  /get_additional_ingredients:
     post:
+      tags:
+        - Recipes
       summary: Get additional ingredients for recipe
       requestBody:
         required: true
@@ -91,7 +106,7 @@ paths:
                 recipe:
                   type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -102,8 +117,11 @@ paths:
                     type: array
                     items:
                       type: string
+
   /analyze_image:
     post:
+      tags:
+        - Recipes
       summary: Analyze image to get ingredients
       requestBody:
         required: true
@@ -116,7 +134,7 @@ paths:
                   type: string
                   format: binary
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -126,7 +144,7 @@ paths:
                   ingredients:
                     type: string
                     example: "Knorr Fixeinbrenn, Erdapfel speckig, Eierknopfle, High Protein Quark, Philadelphia Kréuter"
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
@@ -135,4 +153,495 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: "No image file provided"                 
+
+  /fav-recipes/add:
+    post:
+      tags:
+        - Favorite Recipes
+      summary: Add a new recipe
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                ingredients:
+                  type: array
+                  items:
+                    type: string
+                howToCook:
+                  type: string
+                allergies:
+                  type: array
+                  items:
+                    type: string
+                healthy:
+                  type: boolean
+                hotOrCold:
+                  type: string
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /fav-recipes:
+    get:
+      tags:
+        - Favorite Recipes
+      summary: Get all favorite recipes
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    ingredients:
+                      type: array
+                      items:
+                        type: string
+                    howToCook:
+                      type: string
+                    allergies:
+                      type: array
+                      items:
+                        type: string
+                    healthy:
+                      type: boolean
+                    hotOrCold:
+                      type: string
+
+  /fav-recipes/{id}:
+    get:
+      tags:
+        - Favorite Recipes
+      summary: Get a favorite recipe by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  ingredients:
+                    type: array
+                    items:
+                      type: string
+                  howToCook:
+                    type: string
+                  allergies:
+                    type: array
+                    items:
+                      type: string
+                  healthy:
+                    type: boolean
+                  hotOrCold:
+                    type: string
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /fav-recipes/remove/{id}:
+    delete:
+      tags:
+        - Favorite Recipes
+      summary: Delete a favorite recipe by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /fridge/items:
+    get:
+      tags:
+        - Fridge
+      summary: Get all items in the fridge
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    quantity:
+                      type: integer
+                    expiration_date:
+                      type: string
+                      format: date
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /fridge/items/add:
+    post:
+      tags:
+        - Fridge
+      summary: Add a new item to the fridge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                quantity:
+                  type: integer
+                expiration_date:
+                  type: string
+                  format: date
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /fridge/items/{id}:
+    get:
+      tags:
+        - Fridge
+      summary: Get a fridge item by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  quantity:
+                    type: integer
+                  expiration_date:
+                    type: string
+                    format: date
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /fridge/items/remove/{id}:
+    delete:
+      tags:
+        - Fridge
+      summary: Delete a fridge item by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /fridge/items/update/{id}:
+    put:
+      tags:
+        - Fridge
+      summary: Update a fridge item by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                quantity:
+                  type: integer
+                expiration_date:
+                  type: string
+                  format: date
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Get all users
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    google_id:
+                      type: string
+                    email:
+                      type: string
+                    name:
+                      type: string
+                    profile_picture:
+                      type: string
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Get a user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  google_id:
+                    type: string
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  profile_picture:
+                    type: string
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /users/add:
+    post:
+      tags:
+        - Users
+      summary: Add a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                google_id:
+                  type: string
+                email:
+                  type: string
+                name:
+                  type: string
+                profile_picture:
+                  type: string
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /users/remove/{id}:
+    delete:
+      tags:
+        - Users
+      summary: Delete a user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
