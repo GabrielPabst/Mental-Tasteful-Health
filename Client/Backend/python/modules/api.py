@@ -6,6 +6,8 @@ from WinkkClient.RecipeGenerator import RecipeGenerator
 from WinkkClient.IngredientAnalyser import IngredientAnalyser
 from WinkkClient.AdditionalIngredientGenerator import AdditionalIngredientGenerator
 from helpers.JsonFormatter import JsonFormatter
+import psycopg2
+from psycopg2.extras import RealDictCursor
 app = Flask(__name__)
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -52,5 +54,193 @@ def analyze_image():
     response = generator.generateResponse(image_path)
         
     return jsonify({"analysis": response})
+
+def get_db_connection():
+    conn = psycopg2.connect(
+        host="localhost",
+        port=5432,
+        database="mydatabase",
+        user="myuser",
+        password="mypassword"
+    )
+    return conn
+# Endpoint: Get all recipes
+@app.route('/fav-recipes', methods=['GET'])
+def get_all_recipes():
+        conn = get_db_connection()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute('SELECT * FROM fav_recipe')
+        recipes = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return jsonify(recipes)
+
+    # Endpoint: Get recipe by ID
+@app.route('/fav-recipes/<int:id>', methods=['GET'])
+def get_recipe_by_id(id):
+        conn = get_db_connection()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute('SELECT * FROM fav_recipe WHERE id = %s', (id,))
+        recipe = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        if recipe is None:
+            return jsonify({"error": "Recipe not found"}), 404
+        return jsonify(recipe)
+
+    # Endpoint: Add a new recipe
+@app.route('/fav-recipes/add', methods=['POST'])
+def add_recipe():
+        new_recipe = request.json
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            'INSERT INTO fav_recipe (name, ingredients, how_to_cook, allergies, healthy, hot_or_cold) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id',
+            (new_recipe['name'], new_recipe['ingredients'], new_recipe['howToCook'], new_recipe['allergies'], new_recipe['healthy'], new_recipe['hotOrCold'])
+        )
+        recipe_id = cursor.fetchone()[0]
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({"id": recipe_id}), 201
+
+    # Endpoint: Delete a recipe by ID
+@app.route('/fav-recipes/remove/<int:id>', methods=['DELETE'])
+def delete_recipe(id):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM fav_recipe WHERE id = %s RETURNING id', (id,))
+        deleted_id = cursor.fetchone()
+        conn.commit()
+        cursor.close()
+        conn.close()
+        if deleted_id is None:
+            return jsonify({"error": "Recipe not found"}), 404
+        return jsonify({"id": deleted_id[0]}), 200
+        # Endpoint: Get all ingredients in the fridge
+@app.route('/fridge', methods=['GET'])
+def get_all_ingredients():
+        conn = get_db_connection()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute('SELECT * FROM fridge')
+        ingredients = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return jsonify(ingredients)
+# Endpoint: Get ingredient by ID
+@app.route('/fridge/<int:id>', methods=['GET'])
+def get_ingredient_by_id(id):
+        conn = get_db_connection()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute('SELECT * FROM fridge WHERE id = %s', (id,))
+        ingredient = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        if ingredient is None:
+            return jsonify({"error": "Ingredient not found"}), 404
+        return jsonify(ingredient)
+        # Endpoint: Add a new ingredient to the fridge
+@app.route('/fridge/add', methods=['POST'])
+def add_ingredient():
+        new_ingredient = request.json
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            'INSERT INTO fridge (ingredient_name) VALUES (%s) RETURNING id',
+             (new_ingredient['name'],)
+           )
+        ingredient_id = cursor.fetchone()[0]
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({"id": ingredient_id}), 201
+
+        # Endpoint: Delete an ingredient from the fridge by ID
+@app.route('/fridge/remove/<int:id>', methods=['DELETE'])
+def delete_ingredient(id):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM fridge WHERE id = %s RETURNING id', (id,))
+        deleted_id = cursor.fetchone()
+        conn.commit()
+        cursor.close()
+        conn.close()
+        if deleted_id is None:
+              return jsonify({"error": "Ingredient not found"}), 404
+        return jsonify({"id": deleted_id[0]}), 200
+        # Endpoint: Update an ingredient in the fridge by ID
+@app.route('/fridge/update/<int:id>', methods=['PUT'])
+def update_ingredient(id):
+        updated_ingredient = request.json
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+             'UPDATE fridge SET ingredient_name = %s WHERE id = %s RETURNING id',
+             (updated_ingredient['name'], id)
+        )
+        updated_id = cursor.fetchone()
+        conn.commit()
+        cursor.close()
+        conn.close()
+        if updated_id is None:
+            return jsonify({"error": "Ingredient not found"}), 404
+        return jsonify({"id": updated_id[0]}), 200
+
+        # Endpoint: Get all users
+@app.route('/users', methods=['GET'])
+def get_all_users():
+        conn = get_db_connection()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute('SELECT * FROM users')
+        users = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return jsonify(users)
+
+        # Endpoint: Get user by ID
+@app.route('/users/<int:id>', methods=['GET'])
+def get_user_by_id(id):
+        conn = get_db_connection()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute('SELECT * FROM users WHERE id = %s', (id,))
+        user = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        if user is None:
+            return jsonify({"error": "User not found"}), 404
+        return jsonify(user)
+
+        # Endpoint: Add a new user
+@app.route('/users/add', methods=['POST'])
+def add_user():
+        new_user = request.json
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            'INSERT INTO users (google_id, email, name, profile_picture) VALUES (%s, %s, %s, %s) RETURNING id',
+            (new_user['google_id'], new_user['email'], new_user.get('name'), new_user.get('profile_picture'))
+        )
+        user_id = cursor.fetchone()[0]
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({"id": user_id}), 201
+
+        # Endpoint: Delete a user by ID
+@app.route('/users/remove/<int:id>', methods=['DELETE'])
+def delete_user(id):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM users WHERE id = %s RETURNING id', (id,))
+        deleted_id = cursor.fetchone()
+        conn.commit()
+        cursor.close()
+        conn.close()
+        if deleted_id is None:
+            return jsonify({"error": "User not found"}), 404
+        return jsonify({"id": deleted_id[0]}), 200
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
