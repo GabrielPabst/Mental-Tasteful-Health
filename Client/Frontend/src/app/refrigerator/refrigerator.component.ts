@@ -10,18 +10,14 @@ import {Recipe, RecipiesResDto} from '../dto/RecipiesResDto';
   standalone: true,
   templateUrl: './refrigerator.component.html',
   styleUrls: ['./refrigerator.component.css'],
-  // Damit HttpClient, *ngFor und *ngIf in dieser Komponente genutzt werden können:
-  imports: [HttpClientModule, NgForOf, NgIf]
+  imports: []
 })
 export class RefrigeratorComponent implements OnInit {
 
-  // Signal, das eine Liste von Tupeln [Zutat, ausgewählt] speichert.
   ingredientsList = signal<[string, boolean][]>([]);
 
-  // Signal für die Rezepte, die vom /get_recipes-Endpunkt zurückgegeben werden.
   recipes = signal<Recipe[]>([]);
 
-  // Signal für das detaillierte Rezept (wird als Objekt zurückgegeben) – null, wenn kein Modal offen ist.
   detailedRecipe = signal<any | null>(null);
 
   constructor(private http: HttpClient) { }
@@ -37,7 +33,6 @@ export class RefrigeratorComponent implements OnInit {
   async loadFridgeItems(): Promise<void> {
     await this.http.get<any[]>('http://127.0.0.1:5000/fridge').subscribe(
       (response) => {
-        // Annahme: Jedes Objekt besitzt die Eigenschaft "ingredient_name".
         const list = response.map(item => [item.ingredient_name, false] as [string, boolean]);
         this.ingredientsList.set(list);
       },
@@ -72,7 +67,6 @@ export class RefrigeratorComponent implements OnInit {
    * { "ingredients": ["lettuce", "tomato", "cheese", "sausage"] }
    */
   async generateMeal() {
-    // Testweise fixen Request, wie er im erfolgreichen Test verwendet wurde:
     const testIngredients = ["lettuce", "tomato", "cheese", "sausage"];
     console.log("Test Ingredients: ", testIngredients);
     const uniqueIngredients = [
