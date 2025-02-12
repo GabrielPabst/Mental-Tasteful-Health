@@ -8,15 +8,26 @@
   max-width: 600px;
   margin: auto;
   padding: 2rem;
-  background: #f8f9fa;
+  background: #F7F0F5;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
   font-size: 1.8rem;
-  font-weight: bold;
-  color: #333;
+  font-weight: 900; /* Maximale Fettstufe */
+  color: #017cf1;
+  font-family: "Poppins", sans-serif;
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+}
+
+.input-container{
+  width: 90%;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  border: 2px solid #424242;
+  border-radius: 8px;
+  margin-bottom: 1rem;
 }
 
 /* Zutatenliste */
@@ -24,9 +35,7 @@ h1 {
   list-style: none;
   padding: 0;
   width: 100%;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: #F7F0F5;
   overflow: hidden;
 }
 
@@ -35,10 +44,21 @@ h1 {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  border-bottom: 1px solid #ddd;
+  border-radius: 8px;
+  border: 2px solid #424242;
   font-size: 1.2rem;
   cursor: pointer;
   transition: background 0.2s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+  margin-bottom: 2%;
+}
+
+.ingredient_checkbox {
+  width: 20px;  /* Größe direkt setzen */
+  height: 20px;
+  transform: scale(1.5); /* Vergrößerung */
+  cursor: pointer;
+  accent-color: #B2D02D;
 }
 
 .ingredient-list li:hover {
