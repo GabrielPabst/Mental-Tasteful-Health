@@ -51,8 +51,9 @@ h1 {
   font-weight: bold;
 }
 
-
-/* Button zum Generieren der Mahlzeit */
+.detailed-steps {
+  list-style-type: none;
+}
 
 .ingredient-list-element{
   border: none;

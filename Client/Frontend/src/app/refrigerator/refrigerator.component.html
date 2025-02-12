@@ -44,28 +44,19 @@
   }
 
   @if (detailedRecipe()) {
-    <div class="modal-overlay">
-      <div class="modal">
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
         <button class="close-button" (click)="closeModal()">Schließen</button>
         <h2>{{ detailedRecipe()?.detailed_recipe?.name }}</h2>
 
         <h3>Detaillierte Schritte:</h3>
-        <ol>
+
+        <ol class="detailed-steps">
           @for (step of detailedRecipe()?.detailed_recipe?.detailed_steps; track step) {
             <li>{{ step }}</li>
           }
         </ol>
 
-        <h4>Zutaten:</h4>
-        <ul>
-          @for (ingredient of detailedRecipe()?.detailed_recipe?.ingredients; track ingredient) {
-            <li>{{ ingredient }}</li>
-          }
-        </ul>
-
-        <p><strong>Allergien:</strong> {{ detailedRecipe()?.detailed_recipe?.allergies?.join(', ') || 'Keine' }}</p>
-        <p><strong>Gesund:</strong> {{ detailedRecipe()?.detailed_recipe?.healthy ? 'Ja' : 'Nein' }}</p>
-        <p><strong>Heiß oder kalt:</strong> {{ detailedRecipe()?.detailed_recipe?.hotOrCold || 'Unbekannt' }}</p>
       </div>
     </div>
   }
