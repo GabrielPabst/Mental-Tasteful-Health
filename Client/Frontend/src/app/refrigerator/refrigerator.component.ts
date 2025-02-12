@@ -55,8 +55,16 @@ export class RefrigeratorComponent implements OnInit {
     }
   }
 
+  removeIngredientFromSelectedList(ingredient: string) {
+    this.selectedIngredientsList.set(
+      this.selectedIngredientsList().filter((name) => name !== ingredient)
+    );
+  }
 
   async generateMeal() {
+
+    console.log(this.selectedIngredientsList());
+    console.log(this.selectedIngredientsList());
 
     if(this.selectedIngredientsList().length === 0) {
       alert("Bitte wählen Sie mindestens eine Zutat aus.");
@@ -139,9 +147,10 @@ export class RefrigeratorComponent implements OnInit {
   async removeIngredient(ingredientElement: FridgeResDto) {
 
     try{
-
       const response = await firstValueFrom(
         this.http.delete<number>("http://127.0.0.1:5000/fridge/remove/" + ingredientElement.id));
+
+      this.removeIngredientFromSelectedList(ingredientElement.ingredient_name);
 
       await this.loadFridgeItems();
 
@@ -151,8 +160,8 @@ export class RefrigeratorComponent implements OnInit {
   }
 
   async editIngredient(ingredient: FridgeResDto) {
+
     try{
-      console.log(ingredient.ingredient_name);
       const response = await firstValueFrom(
         this.http.put<number>("http://127.0.0.1:5000/fridge/update/" + ingredient.id, {
           ingredient_name: ingredient.ingredient_name
