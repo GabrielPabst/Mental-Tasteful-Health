@@ -24,11 +24,11 @@
   <button (click)="addIngredientDialog.show()">Zutat hinzufügen</button>
   <button (click)="generateMeal()">🍽️ Mahlzeit generieren</button>
 
-  <dialog #addIngredientDialog>
+  <dialog class="dialog-window" #addIngredientDialog>
     <h2>Zutat hinzufügen</h2>
     <input class="input-container" type="text" [(ngModel)]="newIngredient" placeholder="Zutat">
-    <button (click)="addIngredient(addIngredientDialog)">Hinzufügen</button>
-    <button (click)="addIngredientDialog.close()">Abbrechen</button>
+    <button class="input-container-button" (click)="addIngredient(addIngredientDialog)">Hinzufügen</button>
+    <button class="input-container-button" (click)="addIngredientDialog.close()">Abbrechen</button>
   </dialog>
 
 
