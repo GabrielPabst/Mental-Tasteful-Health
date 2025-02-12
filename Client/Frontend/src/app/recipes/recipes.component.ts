@@ -95,7 +95,7 @@ export class RecipesComponent {
 
         const response = await lastValueFrom(this.http.post<{ id: number }>(
           'http://127.0.0.1:5000/fridge/add',  // ✅ Richtiger Endpoint!
-          { name: ingredient }  // ✅ Richtiger JSON-Body!
+          { ingredient_name: ingredient }  // ✅ Richtiger JSON-Body!
         ));
 
         console.log(`✅ '${ingredient}' wurde erfolgreich gespeichert (ID: ${response?.id}).`);
