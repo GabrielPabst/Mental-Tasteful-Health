@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import {NgForOf, NgIf} from '@angular/common';
 
 interface Recipe {
   id: number;
@@ -17,10 +16,7 @@ interface Recipe {
   selector: 'app-favourite-page',
   standalone: true,
   templateUrl: './favourite-page.component.html',
-  imports: [
-    NgIf,
-    NgForOf
-  ],
+  imports: [],
   styleUrls: ['./favourite-page.component.css']
 })
 export class FavouritePageComponent {
