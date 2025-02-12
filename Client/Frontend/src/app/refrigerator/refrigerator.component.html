@@ -6,7 +6,7 @@
       <li>
         <input class="ingredient-list-element" type="text" (change)="editIngredient(ingredient)" [(ngModel)]="ingredient.ingredient_name">
         <input class="ingredient_checkbox" id="{{ingredient.ingredient_name}}" type="checkbox" (click)="selectIngredient(ingredient)">
-        <button (click)="removeIngredient(ingredient)">🗑️</button>
+        <button class="delete-box" (click)="removeIngredient(ingredient)">🗑️</button>
       </li>
     }
 
@@ -17,13 +17,13 @@
   </label>
 
 
-  <input type="text" [(ngModel)]="cuisine" placeholder="Kategorie">
+  <input class="input-container" type="text" [(ngModel)]="cuisine" placeholder="Kategorie">
   <button (click)="addIngredientDialog.show()">Zutat hinzufügen</button>
   <button (click)="generateMeal()">🍽️ Mahlzeit generieren</button>
 
   <dialog #addIngredientDialog>
     <h2>Zutat hinzufügen</h2>
-    <input type="text" [(ngModel)]="newIngredient" placeholder="Zutat">
+    <input class="input-container" type="text" [(ngModel)]="newIngredient" placeholder="Zutat">
     <button (click)="addIngredient(addIngredientDialog)">Hinzufügen</button>
     <button (click)="addIngredientDialog.close()">Abbrechen</button>
   </dialog>
