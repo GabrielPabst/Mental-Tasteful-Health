@@ -2,14 +2,17 @@
   <h1>🧊 Mein Kühlschrank</h1>
 
   <ul class="ingredient-list">
-    @for (ingredient of ingredientsList(); track ingredient.id) {
-      <li>
-        <input class="ingredient-list-element" type="text" (change)="editIngredient(ingredient)" [(ngModel)]="ingredient.ingredient_name">
-        <input class="ingredient_checkbox" id="{{ingredient.ingredient_name}}" type="checkbox" (click)="selectIngredient(ingredient)">
-        <button class="delete-box" (click)="removeIngredient(ingredient)">🗑️</button>
-      </li>
+    @if (ingredientsList()?.length === 0) {
+      <li>Keine Zutaten vorhanden</li>
+    } @else{
+      @for (ingredient of ingredientsList(); track ingredient.id) {
+        <li>
+          <input class="ingredient-list-element" type="text" (change)="editIngredient(ingredient)" [(ngModel)]="ingredient.ingredient_name">
+          <input class="ingredient_checkbox" id="{{ingredient.ingredient_name}}" type="checkbox" (click)="selectIngredient(ingredient)">
+          <button class="delete-box" (click)="removeIngredient(ingredient)">🗑️</button>
+        </li>
+      }
     }
-
   </ul>
 
   <label>

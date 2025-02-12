@@ -2,24 +2,29 @@
 .upload-container {
   text-align: center;
   padding: 20px;
-  border: 2px dashed #007bff;
-  border-radius: 10px;
-  background: #f9f9f9;
+  border: 2px dashed #424242; /* Dunklere Farbe für besseren Kontrast */
+  border-radius: 12px;
+  background: #F7F0F5;
   width: 50%;
   margin: 20px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .upload-container input {
   margin-top: 10px;
+  font-family: "Poppins", sans-serif;
 }
 
 .upload-container button {
   margin-top: 10px;
   padding: 10px;
-  background: #007bff;
+  background: #B2D02D; /* Neue grüne Farbe für Einheitlichkeit */
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
 }
 
 .upload-container button:disabled {
@@ -41,6 +46,7 @@
   background: rgba(0, 0, 0, 0.5);
   color: white;
   font-size: 20px;
+  font-family: "Poppins", sans-serif;
   z-index: 1000;
 }
 
@@ -48,7 +54,7 @@
   width: 50px;
   height: 50px;
   border: 5px solid #f3f3f3;
-  border-top: 5px solid #007bff;
+  border-top: 5px solid #B2D02D;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 10px;
@@ -61,12 +67,13 @@
 
 /* Zutatenliste */
 .ingredient-container {
-  background: white;
+  background: #F7F0F5;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 12px;
   width: 50%;
   margin: 20px auto;
   text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .ingredient-container ul {
@@ -75,11 +82,65 @@
 }
 
 .ingredient-container li {
-  font-size: 18px;
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
+  font-size: 1.2rem;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid #424242;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+  margin-bottom: 2%;
 }
 
-.ingredient-container li:last-child {
-  border-bottom: none;
+.ingredient-container li:hover {
+  background: #f1f1f1;
+}
+
+.ingredient-container li.selected {
+  background: #d4edda;
+  color: #155724;
+  font-weight: bold;
+}
+
+/* Input-Stil angleichen */
+.ingredient-list-element {
+  border: 2px solid #424242;
+  width: 70%; /* Etwas schmaler */
+  height: 35px;
+  padding: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  font-family: "Poppins", sans-serif;
+}
+
+.delete-box {
+  width: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Responsive Anpassung */
+@media (max-width: 600px) {
+  .upload-container, .ingredient-container {
+    max-width: 90%;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .ingredient-container li {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  .upload-container button {
+    width: 100%;
+  }
+}
+
+.ingredient-list li:hover {
+  background: #e8e8e8; /* Weicher Grau-Ton für ein modernes Feeling */
+  transition: background 0.2s ease-in-out;
 }
