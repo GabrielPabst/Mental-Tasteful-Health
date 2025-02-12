@@ -9,7 +9,7 @@ import {Router, RouterLink} from '@angular/router';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
-  isOpen = signal(true);
+  isOpen = signal(false);
 
   constructor(private router: Router) {
   }
@@ -20,17 +20,21 @@ export class SidebarComponent {
 
   navigateToLogin() {
     this.router.navigateByUrl('/login');
+    this.isOpen.set(false);
   }
 
   navigateToRefrigerator() {
     this.router.navigateByUrl('/refrigerator');
+    this.isOpen.set(false);
   }
 
   navigateToRecipes() {
     this.router.navigateByUrl('/recipes');
+    this.isOpen.set(false);
   }
 
   navigateToFavourite() {
     this.router.navigateByUrl('/favourite');
+    this.isOpen.set(false);
   }
 }

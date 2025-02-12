@@ -5,11 +5,12 @@ import {Recipe, RecipiesResDto} from '../dto/RecipiesResDto';
 import {FormsModule} from '@angular/forms';
 import {FridgeResDto} from '../dto/FridgeResDto';
 import {DetailedRecipesResDto} from '../dto/DetailedRecipesResDto';
+import {NgIf} from '@angular/common';
 
 
 @Component({
   selector: 'app-refrigerator',
-  imports: [FormsModule],
+  imports: [FormsModule, NgIf],
   templateUrl: './refrigerator.component.html',
   standalone: true,
   styleUrls: ['./refrigerator.component.css']
@@ -28,6 +29,10 @@ export class RefrigeratorComponent implements OnInit {
   cuisine = signal<string>('');
 
   maxRecipeCount = signal<number>(5);
+
+  isLoadingRecipes = signal<boolean>(false);
+  isLoadingDetails = signal<boolean>(false);
+
 
 
   constructor(private http: HttpClient) {
@@ -84,6 +89,7 @@ export class RefrigeratorComponent implements OnInit {
   async generateMeal() {
 
     if(this.selectedIngredientsList().length !== 0) {
+      this.isLoadingRecipes.set(true);
       try {
         console.log(this.cuisine());
         const response = await firstValueFrom(
@@ -113,6 +119,7 @@ export class RefrigeratorComponent implements OnInit {
             };
           })
         );
+        this.isLoadingRecipes.set(false);
       } catch (error) {
         console.error('Fehler beim Abrufen der Rezepte (Test):', error);
       }
@@ -124,6 +131,7 @@ export class RefrigeratorComponent implements OnInit {
 
   async showDetailedRecipe(recipe: Recipe) {
     try {
+      this.isLoadingDetails.set(true);
       const response = await firstValueFrom(
         this.http.post<DetailedRecipesResDto>(
           'http://127.0.0.1:5000/generate_detailed_recipe',
@@ -141,6 +149,7 @@ export class RefrigeratorComponent implements OnInit {
       this.detailedRecipe.set(response);
 
       console.log(this.detailedRecipe());
+      this.isLoadingDetails.set(false);
     } catch (error) {
       console.error('Fehler beim Abrufen des detaillierten Rezepts:', error);
     }
