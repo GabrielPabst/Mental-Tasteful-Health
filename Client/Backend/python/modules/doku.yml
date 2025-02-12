@@ -443,7 +443,7 @@ paths:
                   error:
                     type: string
 
-  /fridge/items:
+  /fridge:
     get:
       tags:
         - Fridge
@@ -472,7 +472,7 @@ paths:
                   error:
                     type: string
 
-  /fridge/items/add:
+  /fridge/add:
     post:
       tags:
         - Fridge
@@ -506,7 +506,7 @@ paths:
                   error:
                     type: string
 
-  /fridge/items/{id}:
+  /fridge/{id}:
     get:
       tags:
         - Fridge
@@ -539,7 +539,7 @@ paths:
                   error:
                     type: string
 
-  /fridge/items/remove/{id}:
+  /fridge/remove/{id}:
     delete:
       tags:
         - Fridge
@@ -570,7 +570,7 @@ paths:
                   error:
                     type: string
 
-  /fridge/items/update/{id}:
+  /fridge/update/{id}:
     put:
       tags:
         - Fridge
