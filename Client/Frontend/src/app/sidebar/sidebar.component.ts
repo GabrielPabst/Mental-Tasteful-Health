@@ -29,4 +29,8 @@ export class SidebarComponent {
   navigateToRecipes() {
     this.router.navigateByUrl('/recipes');
   }
+
+  navigateToFavourite() {
+    this.router.navigateByUrl('/favourite');
+  }
 }
