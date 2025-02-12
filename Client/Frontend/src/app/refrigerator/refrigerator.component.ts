@@ -53,6 +53,8 @@ export class RefrigeratorComponent implements OnInit {
     } else {
       this.selectedIngredientsList.set([...this.selectedIngredientsList(), ingredient.ingredient_name]);
     }
+
+    console.log(this.selectedIngredientsList());
   }
 
   removeIngredientFromSelectedList(ingredient: string) {
@@ -64,37 +66,42 @@ export class RefrigeratorComponent implements OnInit {
   async generateMeal() {
 
     console.log(this.selectedIngredientsList());
-    console.log(this.selectedIngredientsList());
 
-    if(this.selectedIngredientsList().length === 0) {
+    if(this.selectedIngredientsList().length !== 0) {
+      try {
+        const response = await firstValueFrom(
+          this.http.post<RecipiesResDto>(
+            'http://127.0.0.1:5000/get_recipes',
+            {ingredients: this.selectedIngredientsList()}
+          )
+        );
+
+        console.log(response);
+
+        if(response.recipes.recipies.length === 0) {
+          alert("Es wurden keine Rezepte gefunden.");
+        }
+
+        this.recipes.set(
+          response.recipes.recipies.map((recipe: Recipe) => {
+            return {
+              name: recipe.name,
+              ingredients: recipe.ingredients,
+              howToCook: recipe.howToCook,
+              allergies: recipe.allergies,
+              healthy: recipe.healthy,
+              hotOrCold: recipe.hotOrCold
+            };
+          })
+        );
+      } catch (error) {
+        console.error('Fehler beim Abrufen der Rezepte (Test):', error);
+      }
+    }
+    else{
       alert("Bitte wählen Sie mindestens eine Zutat aus.");
     }
-
-    try {
-      const response = await firstValueFrom(
-        this.http.post<RecipiesResDto>(
-          'http://127.0.0.1:5000/get_recipes',
-          { ingredients: this.selectedIngredientsList() }
-        )
-      );
-
-      this.recipes.set(
-        response.recipes.recipies.map((recipe: Recipe) => {
-          return {
-            name: recipe.name,
-            ingredients: recipe.ingredients,
-            howToCook: recipe.howToCook,
-            allergies: recipe.allergies,
-            healthy: recipe.healthy,
-            hotOrCold: recipe.hotOrCold
-          };
-        })
-      );
-    } catch (error) {
-      console.error('Fehler beim Abrufen der Rezepte (Test):', error);
-    }
   }
-
 
   showDetailedRecipe(recipe: any) {
     this.http.post<{ detailed_recipe: any }>(
