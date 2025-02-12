@@ -2,11 +2,11 @@
   <h1>🧊 Mein Kühlschrank</h1>
 
   <ul class="ingredient-list">
-    @for (ingredient of ingredientsList(); track ingredient) {
-      <li (click)="selectIngredient(ingredient[0])">
-        <span>{{ ingredient[0] }}</span>
-        <input type="checkbox" [checked]="ingredient[1]" readonly>
-        <button (click)="removeIngredient(ingredient[0])">🗑️</button>
+    @for (ingredient of ingredientsList(); track ingredient.id) {
+      <li>
+        <input class="ingredient-list-element" type="text" (change)="editIngredient(ingredient)" [(ngModel)]="ingredient.ingredient_name">
+        <input type="checkbox" (click)="selectIngredient(ingredient)">
+        <button (click)="removeIngredient(ingredient)">🗑️</button>
       </li>
     }
 
@@ -18,7 +18,7 @@
   <dialog #addIngredientDialog>
     <h2>Zutat hinzufügen</h2>
     <input type="text" [(ngModel)]="newIngredient" placeholder="Zutat">
-    <button (click)="addIngredient()">Hinzufügen</button>
+    <button (click)="addIngredient(addIngredientDialog)">Hinzufügen</button>
     <button (click)="addIngredientDialog.close()">Abbrechen</button>
   </dialog>
 

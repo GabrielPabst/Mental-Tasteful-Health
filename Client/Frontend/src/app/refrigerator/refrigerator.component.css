@@ -51,14 +51,13 @@ h1 {
   font-weight: bold;
 }
 
-.ingredient-list li input {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
 
 /* Button zum Generieren der Mahlzeit */
 
+.ingredient-list-element{
+  border: none;
+  width: fit-content;
+}
 
 /* Responsive Design */
 @media (max-width: 600px) {
