@@ -3,7 +3,7 @@ POST http://127.0.0.1:5000/get_recipes
 Content-Type: application/json
 
 {
-  "ingredients": [ "lettuce", "tomato", "cheese", "sausage"]
+  "ingredients": [ "lettuce", "tomato", "cheese"]
 }
 
 ### Test for /filter_ingredients endpoint
