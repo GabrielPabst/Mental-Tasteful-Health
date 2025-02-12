@@ -4,16 +4,15 @@ import { firstValueFrom } from 'rxjs';
 import {Recipe, RecipiesResDto} from '../dto/RecipiesResDto';
 import {FormsModule} from '@angular/forms';
 import {FridgeResDto} from '../dto/FridgeResDto';
+import {DetailedRecipesResDto} from '../dto/DetailedRecipesResDto';
 
 
 @Component({
   selector: 'app-refrigerator',
-  standalone: true,
+  imports: [FormsModule],
   templateUrl: './refrigerator.component.html',
-  styleUrls: ['./refrigerator.component.css'],
-  imports: [
-    FormsModule
-  ]
+  standalone: true,
+  styleUrls: ['./refrigerator.component.css']
 })
 export class RefrigeratorComponent implements OnInit {
 
@@ -23,7 +22,7 @@ export class RefrigeratorComponent implements OnInit {
 
   recipes = signal<Recipe[]>([]);
 
-  detailedRecipe = signal<any | null>(null);
+  detailedRecipe = signal<DetailedRecipesResDto | null>(null);
   newIngredient = signal<string>('');
 
   constructor(private http: HttpClient) { }
@@ -31,7 +30,6 @@ export class RefrigeratorComponent implements OnInit {
   async ngOnInit() {
     await this.loadFridgeItems();
   }
-
 
   async loadFridgeItems(): Promise<void> {
     this.http.get<FridgeResDto[]>('http://127.0.0.1:5000/fridge').subscribe(
@@ -53,8 +51,6 @@ export class RefrigeratorComponent implements OnInit {
     } else {
       this.selectedIngredientsList.set([...this.selectedIngredientsList(), ingredient.ingredient_name]);
     }
-
-    console.log(this.selectedIngredientsList());
   }
 
   removeIngredientFromSelectedList(ingredient: string) {
@@ -64,8 +60,6 @@ export class RefrigeratorComponent implements OnInit {
   }
 
   async generateMeal() {
-
-    console.log(this.selectedIngredientsList());
 
     if(this.selectedIngredientsList().length !== 0) {
       try {
@@ -103,25 +97,29 @@ export class RefrigeratorComponent implements OnInit {
     }
   }
 
-  showDetailedRecipe(recipe: any) {
-    this.http.post<{ detailed_recipe: any }>(
-      'http://127.0.0.1:5000/generate_detailed_recipe',
-      {
-        name: recipe.name,
-        ingredients: recipe.ingredients,
-        howToCook: recipe.howToCook,
-        allergies: recipe.allergies,
-        healthy: recipe.healthy,
-        hotOrCold: recipe.hotOrCold
-      }
-    ).subscribe(
-      (response) => {
-        this.detailedRecipe.set(response.detailed_recipe);
-      },
-      (error) => {
-        console.error('Fehler beim Abrufen des detaillierten Rezepts:', error);
-      }
-    );
+  async showDetailedRecipe(recipe: Recipe) {
+    try {
+      const response = await firstValueFrom(
+        this.http.post<DetailedRecipesResDto>(
+          'http://127.0.0.1:5000/generate_detailed_recipe',
+          {
+            name: recipe.name,
+            ingredients: recipe.ingredients,
+            howToCook: recipe.howToCook,
+            allergies: recipe.allergies,
+            healthy: recipe.healthy,
+            hotOrCold: recipe.hotOrCold
+          }
+        )
+      );
+
+      this.detailedRecipe.set(response);
+
+      console.log(this.detailedRecipe());
+    } catch (error) {
+      console.error('Fehler beim Abrufen des detaillierten Rezepts:', error);
+    }
+
   }
 
 
@@ -139,8 +137,6 @@ export class RefrigeratorComponent implements OnInit {
         this.http.post<number>("http://127.0.0.1:5000/fridge/add", {
           ingredient_name: this.newIngredient()
         }));
-
-
 
       await this.loadFridgeItems();
 
