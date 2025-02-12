@@ -5,13 +5,19 @@
     @for (ingredient of ingredientsList(); track ingredient.id) {
       <li>
         <input class="ingredient-list-element" type="text" (change)="editIngredient(ingredient)" [(ngModel)]="ingredient.ingredient_name">
-        <input type="checkbox" (click)="selectIngredient(ingredient)">
+        <input class="ingredient_checkbox" id="{{ingredient.ingredient_name}}" type="checkbox" (click)="selectIngredient(ingredient)">
         <button (click)="removeIngredient(ingredient)">🗑️</button>
       </li>
     }
 
   </ul>
 
+  <label>
+    <button (click)="selectAllIngredients()">Alle Produkte auswählen</button>
+  </label>
+
+
+  <input type="text" [(ngModel)]="cuisine" placeholder="Kategorie">
   <button (click)="addIngredientDialog.show()">Zutat hinzufügen</button>
   <button (click)="generateMeal()">🍽️ Mahlzeit generieren</button>
 

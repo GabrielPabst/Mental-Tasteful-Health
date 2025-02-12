@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import {Component, computed, effect, OnInit, signal} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import {Recipe, RecipiesResDto} from '../dto/RecipiesResDto';
@@ -25,7 +25,14 @@ export class RefrigeratorComponent implements OnInit {
   detailedRecipe = signal<DetailedRecipesResDto | null>(null);
   newIngredient = signal<string>('');
 
-  constructor(private http: HttpClient) { }
+  cuisine = signal<string>('');
+
+  maxRecipeCount = signal<number>(5);
+
+
+  constructor(private http: HttpClient) {
+
+  }
 
   async ngOnInit() {
     await this.loadFridgeItems();
@@ -51,6 +58,7 @@ export class RefrigeratorComponent implements OnInit {
     } else {
       this.selectedIngredientsList.set([...this.selectedIngredientsList(), ingredient.ingredient_name]);
     }
+    console.log(this.selectedIngredientsList());
   }
 
   removeIngredientFromSelectedList(ingredient: string) {
@@ -59,14 +67,31 @@ export class RefrigeratorComponent implements OnInit {
     );
   }
 
+
+  selectAllIngredients() {
+    this.ingredientsList()?.forEach((ingredient) => {
+      const checkbox = document.getElementById(ingredient.ingredient_name) as HTMLInputElement;
+      console.log(checkbox);
+
+      if(!checkbox.checked) {
+        checkbox.checked = true;
+        this.selectIngredient(ingredient);
+      }
+    });
+  }
+
+
   async generateMeal() {
 
     if(this.selectedIngredientsList().length !== 0) {
       try {
+        console.log(this.cuisine());
         const response = await firstValueFrom(
           this.http.post<RecipiesResDto>(
             'http://127.0.0.1:5000/get_recipes',
-            {ingredients: this.selectedIngredientsList()}
+            {ingredients: this.selectedIngredientsList(),
+                  cuisine: this.cuisine(),
+                  recipe_count: this.maxRecipeCount()}
           )
         );
 
@@ -141,6 +166,7 @@ export class RefrigeratorComponent implements OnInit {
       await this.loadFridgeItems();
 
       addIngredientDialog.close();
+      this.newIngredient.set('');
 
     } catch (error) {
       console.error('Fehler beim Hinzufügen einer Zutat:', error);
