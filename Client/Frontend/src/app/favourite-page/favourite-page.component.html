@@ -1,37 +1,41 @@
 <div class="container">
   <h1>⭐ Deine Lieblingsrezepte</h1>
 
-  <!-- Ladeanzeige -->
-  <div *ngIf="isLoading()" class="loading">
-    ⏳ Lade Rezepte...
-  </div>
+  @if (isLoading()) {
+    <div class="loading">
+      ⏳ Lade Rezepte...
+    </div>
+  }
 
-  <!-- Fehlermeldung -->
-  <div *ngIf="errorMessage()" class="error">
-    {{ errorMessage() }}
-  </div>
+  @if (errorMessage()) {
+    <div class="error">
+      {{ errorMessage() }}
+    </div>
+  }
 
-  <!-- Rezeptliste -->
-  <div *ngIf="!isLoading() && recipes().length > 0">
+  @if (!isLoading() && recipes().length > 0) {
     <ul class="recipe-list">
-      <li *ngFor="let recipe of recipes()">
-        <div class="recipe-card">
-          <div class="recipe-header">
-            <h2>{{ recipe.name }}</h2>
-            <span class="remove-btn" (click)="removeFromFavourites(recipe.id)">⭐</span>
+      @for (recipe of recipes(); track recipe.id) {
+        <li>
+          <div class="recipe-card">
+            <div class="recipe-header">
+              <h2>{{ recipe.name }}</h2>
+              <span class="remove-btn" (click)="removeFromFavourites(recipe.id)">⭐</span>
+            </div>
+            <p><strong>Zutaten:</strong> {{ recipe.ingredients.join(', ') }}</p>
+            <p><strong>Zubereitung:</strong> {{ recipe.howToCook }}</p>
+            <p><strong>Allergien:</strong> {{ recipe.allergies.length > 0 ? recipe.allergies.join(', ') : 'Keine' }}</p>
+            <p><strong>Gesund:</strong> {{ recipe.healthy ? 'Ja ✅' : 'Nein ❌' }}</p>
+            <p><strong>Warm/Kalt:</strong> {{ recipe.hotOrCold === 'hot' ? '🌡️ Warm' : '❄️ Kalt' }}</p>
           </div>
-          <p><strong>Zutaten:</strong> {{ recipe.ingredients.join(', ') }}</p>
-          <p><strong>Zubereitung:</strong> {{ recipe.howToCook }}</p>
-          <p><strong>Allergien:</strong> {{ recipe.allergies.length > 0 ? recipe.allergies.join(', ') : 'Keine' }}</p>
-          <p><strong>Gesund:</strong> {{ recipe.healthy ? 'Ja ✅' : 'Nein ❌' }}</p>
-          <p><strong>Warm/Kalt:</strong> {{ recipe.hotOrCold === 'hot' ? '🌡️ Warm' : '❄️ Kalt' }}</p>
-        </div>
-      </li>
+        </li>
+      }
     </ul>
-  </div>
+  }
 
-  <!-- Keine Rezepte gefunden -->
-  <div *ngIf="!isLoading() && recipes().length === 0" class="no-recipes">
-    🥲 Du hast noch keine Lieblingsrezepte gespeichert.
-  </div>
+  @if (!isLoading() && recipes().length === 0) {
+    <div class="no-recipes">
+      🥲 Du hast noch keine Lieblingsrezepte gespeichert.
+    </div>
+  }
 </div>

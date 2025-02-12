@@ -29,6 +29,41 @@ h1 {
   border-radius: 8px;
   margin-bottom: 1rem;
 }
+.input-container-button{
+  margin-right: 15px;
+
+}
+.dialog-window {
+  width: 85vw;
+  position: absolute;
+  top: 8.6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 8px;
+}
+
+/* Adjust for larger screens */
+@media (min-width: 768px) { /* Tablets and up */
+  .dialog-window {
+    width: 50vw;
+    max-width: 600px;
+    top: 32%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers it fully */
+  }
+}
+
+@media (min-width: 1200px) { /* Desktop screens */
+  .dialog-window {
+    width: 40vw;
+    max-width: 500px;
+    top: 32%;
+    left: 35%;
+  }
+}
+
+
+
 
 /* Zutatenliste */
 .ingredient-list {
