@@ -1,23 +1,22 @@
 import requests
 import json
 from helpers.key import key,realm
-from helpers.config import recipe_prompt
-
-class RecipeGenerator(): 
+from helpers.config import bonus_recipe_prompt
+from WinkkClient.AdditionalIngredientGenerator import AdditionalIngredientGenerator
+class BonusRecipeGenerator(): 
 
     standartPromt = None
-    system_prompt = recipe_prompt
+    system_prompt = bonus_recipe_prompt
 
     formatting = """ Beispiel-JSON:
-    {"recipies": [
-        {
-            "name": "Würziges Rindfleisch mit Ananas",
-            "ingredients": ["Rindfleisch", "Ananas", "Chilipulver", "Sojasauce"],
-            "howToCook": "Rindfleisch in Streifen schneiden und in einer Pfanne anbraten. Ananaswürfel hinzufügen und mit Sojasauce und Chilipulver würzen. Kurz köcheln lassen und heiß servieren.",
-            "allergies": ["Soja"],
-            "healthy": true,
-            "hotOrCold": "heiß"
-        }]
+    {
+        "name": "Würziges Rindfleisch mit Ananas",
+        "ingredients": ["Rindfleisch", "Ananas", "Chilipulver", "Sojasauce"],
+        "additional_ingredients": ["Reis"],
+        "howToCook": "Rindfleisch in Streifen schneiden und in einer Pfanne anbraten. Ananaswürfel hinzufügen und mit Sojasauce und Chilipulver würzen. Kurz köcheln lassen und heiß servieren.",
+        "allergies": ["Soja"],
+        "healthy": true,
+        "hotOrCold": "heiß"
     }
     """
 
@@ -29,10 +28,12 @@ class RecipeGenerator():
             ["system", self.formatting]
         ]
     
-    def generateResponse(self, user_input, user_preffered_cuisine, recipe_count):
-        self.standartPromt.append(["system", "Gib mir rezepte in Richtung, falls keine vorhanden allgemeine Rezepte: " + user_preffered_cuisine])
-        self.standartPromt[0][1] = self.system_prompt.replace("x", str(recipe_count))
+    def generateResponse(self, user_input, user_preffered_cuisine, additional_ingredients_count):
         
+        additional = AdditionalIngredientGenerator()
+
+        self.standartPromt.append(["system", "Gib mir rezepte in Richtung, falls keine vorhanden allgemeine Rezepte: " + user_preffered_cuisine])
+        self.standartPromt.append(["system", "Liste an zusätzlichen Zutaten: " + additional.generateResponse(user_input, additional_ingredients_count)])
         url = "https://nexusdev.winkk.ai/streamChat"
         headers = {
             "api-key": key,  # Replace with your actual API key

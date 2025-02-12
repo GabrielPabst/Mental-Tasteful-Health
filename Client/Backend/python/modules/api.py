@@ -4,6 +4,7 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from WinkkClient.RecipeGenerator import RecipeGenerator
+from WinkkClient.BonusRecipeGenerator import BonusRecipeGenerator
 from WinkkClient.IngredientAnalyser import IngredientAnalyser
 from WinkkClient.AdditionalIngredientGenerator import AdditionalIngredientGenerator
 from WinkkClient.DetailGenerator import DetailGenerator
@@ -21,19 +22,31 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def get_recipes():
     ingredients = request.json.get('ingredients', [])
     preffered_cuisine = request.json.get('cuisine',"all")
+    recipe_count = request.json.get('recipe_count', 2)
     # Find recipes that include all ingredients
-    matching_recipes = RecipeGenerator().generateResponse(" ".join(ingredients), preffered_cuisine)
-    print(preffered_cuisine)
+    matching_recipes = RecipeGenerator().generateResponse(" ".join(ingredients), preffered_cuisine, recipe_count)
     matching_recipes = JsonFormatter(matching_recipes).remove_backticks()
-    print(matching_recipes)
     try:
-        print(matching_recipes)
         matching_recipes = json.loads(matching_recipes)
     except json.JSONDecodeError:
-        print(matching_recipes)
         return jsonify({"error": "Failed to decode JSON"}), 500
     return jsonify({"recipes": matching_recipes})
-
+# Endpoint: Get bonus recipes
+@app.route('/bonus_recipe', methods=['POST'])
+def get_bonus_recipes():
+    ingredients = request.json.get('ingredients', [])
+    preffered_cuisine = request.json.get('cuisine', "all")
+    additional_ingredients_count = request.json.get('additional_ingredients_count', 2)
+    
+    recipe_generator = BonusRecipeGenerator()
+    response = recipe_generator.generateResponse(" ".join(ingredients), preffered_cuisine, additional_ingredients_count)
+    response = JsonFormatter(response).remove_backticks()
+    try:
+        response = json.loads(response)
+    except json.JSONDecodeError:
+        return jsonify({"error": "Failed to decode JSON"}), 500
+    
+    return jsonify({"bonus_recipes": response})
 # Endpoint 2: Filter ingredients array (removing duplicates)
 @app.route('/filter_ingredients', methods=['POST'])
 def filter_ingredients():
@@ -46,9 +59,9 @@ def filter_ingredients():
 @app.route('/additional_ingredients', methods=['POST'])
 def additional_ingredients():
     ingredients = request.json.get('ingredients', [])
-
+    count = request.json.get('count', 2)
     add = AdditionalIngredientGenerator()
-    filtered_ingredients = add.generateResponse(" ".join(ingredients), 2)
+    filtered_ingredients = add.generateResponse(" ".join(ingredients), count)
     return jsonify({"additional_ingredients": filtered_ingredients})
 @app.route('/analyze_image', methods=['POST'])
 def analyze_image():

@@ -60,6 +60,8 @@ paths:
                     type: string
                 cuisine:
                   type: string
+                recipe_count:
+                  type: integer
       responses:
         "200":
           description: OK
@@ -92,7 +94,66 @@ paths:
                               type: array
                               items:
                                 type: string
-
+  /bonus_recipe:
+    post:
+      tags:
+        - Recipes
+      summary: Get bonus recipes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ingredients:
+                  type: array
+                  items:
+                    type: string
+                cuisine:
+                  type: string
+                additional_ingredients_count:
+                  type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bonus_recipes:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      ingredients:
+                        type: array
+                        items:
+                          type: string
+                      howToCook:
+                        type: string
+                      allergies:
+                        type: array
+                        items:
+                          type: string
+                      healthy:
+                        type: boolean
+                      hotOrCold:
+                        type: string
+                      additional_ingredients:
+                        type: array
+                        items:
+                          type: string
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
   /get_additional_ingredients:
     post:
       tags:
@@ -105,8 +166,12 @@ paths:
             schema:
               type: object
               properties:
-                recipe:
-                  type: string
+                ingredients:
+                  type: array
+                  items:
+                    type: string
+                count:
+                  type: integer
       responses:
         "200":
           description: OK
