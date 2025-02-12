@@ -7,6 +7,7 @@
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.7);
   border: 3px solid #424242;
+  color: #424242;
 }
 
 
@@ -27,7 +28,8 @@
   border-radius: 8px;
   padding: 15px;
   margin: 10px 0;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+  border: 2px solid #424242;
 }
 
 .recipe-header {
