@@ -460,13 +460,8 @@ paths:
                   properties:
                     id:
                       type: integer
-                    name:
+                    ingredient_name:
                       type: string
-                    quantity:
-                      type: integer
-                    expiration_date:
-                      type: string
-                      format: date
         "404":
           description: Not Found
           content:
@@ -489,13 +484,8 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                ingredient_name:
                   type: string
-                quantity:
-                  type: integer
-                expiration_date:
-                  type: string
-                  format: date
       responses:
         "201":
           description: Created
@@ -537,13 +527,8 @@ paths:
                 properties:
                   id:
                     type: integer
-                  name:
+                  ingredient_name:
                     type: string
-                  quantity:
-                    type: integer
-                  expiration_date:
-                    type: string
-                    format: date
         "404":
           description: Not Found
           content:
@@ -603,13 +588,8 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                ingredient_name:
                   type: string
-                quantity:
-                  type: integer
-                expiration_date:
-                  type: string
-                  format: date
       responses:
         "200":
           description: OK
