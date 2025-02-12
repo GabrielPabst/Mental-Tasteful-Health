@@ -13,7 +13,7 @@ import {readableStreamLikeToAsyncGenerator} from 'rxjs/internal/util/isReadableS
   templateUrl: './refrigerator.component.html',
   styleUrls: ['./refrigerator.component.css'],
   imports: [
-    NgIf
+    FormsModule
   ]
 })
 export class RefrigeratorComponent implements OnInit {

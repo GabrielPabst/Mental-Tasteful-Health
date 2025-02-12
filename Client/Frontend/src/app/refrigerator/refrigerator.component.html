@@ -44,7 +44,7 @@
   }
 
   @if(detailedRecipe()){
-    <div class="modal-overlay" *ngIf="detailedRecipe()">
+    <div class="modal-overlay">
       <div class="modal">
         <button class="close-button" (click)="closeModal()">Schließen</button>
         <h2>{{ detailedRecipe()?.name }}</h2>
