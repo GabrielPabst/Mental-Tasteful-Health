@@ -10,7 +10,9 @@ import {Recipe, RecipiesResDto} from '../dto/RecipiesResDto';
   standalone: true,
   templateUrl: './refrigerator.component.html',
   styleUrls: ['./refrigerator.component.css'],
-  imports: []
+  imports: [
+    NgIf
+  ]
 })
 export class RefrigeratorComponent implements OnInit {
 
