@@ -29,6 +29,9 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  * > a {
+    padding: 5%;
+  }
 }
 
 .sidebar-top-content{
@@ -41,8 +44,8 @@
 .sidebar-content-last-element{
   flex: 2;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .sidebar a:hover {
