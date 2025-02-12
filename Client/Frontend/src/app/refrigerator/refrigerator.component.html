@@ -6,12 +6,22 @@
       <li (click)="selectIngredient(ingredient[0])">
         <span>{{ ingredient[0] }}</span>
         <input type="checkbox" [checked]="ingredient[1]" readonly>
+        <button (click)="removeIngredient(ingredient[0])">🗑️</button>
       </li>
     }
 
   </ul>
 
-  <button class="generate-button" (click)="generateMeal()">🍽️ Mahlzeit generieren</button>
+  <button (click)="addIngredientDialog.show()">Zutat hinzufügen</button>
+  <button (click)="generateMeal()">🍽️ Mahlzeit generieren</button>
+
+  <dialog #addIngredientDialog>
+    <h2>Zutat hinzufügen</h2>
+    <input type="text" [(ngModel)]="newIngredient" placeholder="Zutat">
+    <button (click)="addIngredient()">Hinzufügen</button>
+    <button (click)="addIngredientDialog.close()">Abbrechen</button>
+  </dialog>
+
 
   @if (recipes().length > 0) {
     <div class="recipe-container">

@@ -3,6 +3,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgForOf, NgIf } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import {Recipe, RecipiesResDto} from '../dto/RecipiesResDto';
+import {FormsModule} from '@angular/forms';
+import {readableStreamLikeToAsyncGenerator} from 'rxjs/internal/util/isReadableStreamLike';
 
 
 @Component({
@@ -10,7 +12,9 @@ import {Recipe, RecipiesResDto} from '../dto/RecipiesResDto';
   standalone: true,
   templateUrl: './refrigerator.component.html',
   styleUrls: ['./refrigerator.component.css'],
-  imports: []
+  imports: [
+    NgIf
+  ]
 })
 export class RefrigeratorComponent implements OnInit {
 
@@ -19,6 +23,7 @@ export class RefrigeratorComponent implements OnInit {
   recipes = signal<Recipe[]>([]);
 
   detailedRecipe = signal<any | null>(null);
+  newIngredient = signal<string>('');
 
   constructor(private http: HttpClient) { }
 
@@ -31,7 +36,7 @@ export class RefrigeratorComponent implements OnInit {
    * und wandelt sie in das Format [ingredient_name, false] um.
    */
   async loadFridgeItems(): Promise<void> {
-    await this.http.get<any[]>('http://127.0.0.1:5000/fridge').subscribe(
+    this.http.get<any[]>('http://127.0.0.1:5000/fridge').subscribe(
       (response) => {
         const list = response.map(item => [item.ingredient_name, false] as [string, boolean]);
         this.ingredientsList.set(list);
@@ -67,8 +72,11 @@ export class RefrigeratorComponent implements OnInit {
    * { "ingredients": ["lettuce", "tomato", "cheese", "sausage"] }
    */
   async generateMeal() {
-    const testIngredients = ["lettuce", "tomato", "cheese", "sausage"];
-    console.log("Test Ingredients: ", testIngredients);
+
+    if(this.ingredientsList()) {
+      alert("Bitte wählen Sie mindestens eine Zutat aus.");
+    }
+
     const uniqueIngredients = [
       ...new Set(
         this.ingredientsList()
@@ -76,8 +84,6 @@ export class RefrigeratorComponent implements OnInit {
           .map(([name, _]) => name)
       )
     ];
-
-    console.log(uniqueIngredients);
 
     try {
       const response = await firstValueFrom(
@@ -135,5 +141,45 @@ export class RefrigeratorComponent implements OnInit {
    */
   closeModal() {
     this.detailedRecipe.set(null);
+  }
+
+  async addIngredient() {
+    if(this.newIngredient() === '') {
+      alert("Bitte geben Sie eine Zutat ein.");
+    }
+
+    try{
+      const response = await firstValueFrom(
+        this.http.post<Response>("http://127.0.0.1:5000/fridge/add", {
+          ingredient_name: this.newIngredient()
+        }));
+
+      console.log(response);
+
+      if(response.status !== 201) {
+        console.log(response);
+      }
+
+      await this.loadFridgeItems();
+
+    } catch (error) {
+      console.error('Fehler beim Hinzufügen einer Zutat:', error);
+    }
+  }
+
+  async removeIngredient(ingredientElement: string) {
+
+    try{
+      const response = await firstValueFrom(
+        this.http.delete("http://"));
+
+
+
+      this.loadFridgeItems();
+    } catch (error) {
+      console.error('Fehler beim Löschen einer Zutat:', error);
+    }
+
+
   }
 }

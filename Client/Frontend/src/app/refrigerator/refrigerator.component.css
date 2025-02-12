@@ -58,16 +58,7 @@ h1 {
 }
 
 /* Button zum Generieren der Mahlzeit */
-.generate-button {
-  background: #007bff;
-  font-size: 1.2rem;
-  padding: 0.8rem 1.5rem;
-  transition: background 0.2s ease-in-out;
-}
 
-.generate-button:hover {
-  background: #0056b3;
-}
 
 /* Responsive Design */
 @media (max-width: 600px) {
@@ -82,7 +73,7 @@ h1 {
     padding: 0.8rem;
   }
 
-  .generate-button {
+  .generate-meal-button {
     width: 100%;
   }
 }
