@@ -1,99 +1,85 @@
-/* 🌟 Hauptcontainer breiter und flexibler */
-.container {
-  width: 100%;
-  max-width: 1400px;
-  margin: auto;
+/* Allgemeiner Stil */
+.upload-container {
+  text-align: center;
   padding: 20px;
+  border: 2px dashed #007bff;
+  border-radius: 10px;
+  background: #f9f9f9;
+  width: 50%;
+  margin: 20px auto;
 }
 
-/* 🎯 Input-Feld und Button schön groß */
-.ingredient-input-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 1000px;
-  margin: auto;
+.upload-container input {
+  margin-top: 10px;
 }
 
-textarea {
-  width: 100%;
-  min-height: 50px;
-  font-size: 18px;
-  padding: 12px;
-  border-radius: 6px;
-  border: 2px solid #ccc;
-}
-
-button {
-  width: 100%;
-  max-width: 250px;
-  padding: 12px;
-  font-size: 18px;
-  background-color: #007bff;
+.upload-container button {
+  margin-top: 10px;
+  padding: 10px;
+  background: #007bff;
   color: white;
   border: none;
   cursor: pointer;
-  margin-top: 12px;
-  border-radius: 6px;
 }
 
-button:hover {
-  background-color: #0056b3;
+.upload-container button:disabled {
+  background: gray;
+  cursor: not-allowed;
 }
 
-/* 📦 Zutaten-Box größer */
-.filtered-ingredients {
-  width: 100%;
-  max-width: 1000px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-}
-
-/* 📜 Rezeptkarten flexibel und größer */
-.recipe-container {
+/* Ladespinner */
+.loading-overlay {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 1600px;
-  margin: auto;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 20px;
+  z-index: 1000;
 }
 
-/* Einzelne Rezeptkarte */
-.recipe-card {
-  width: 100%;
-  max-width: 600px;
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Zutatenliste */
+.ingredient-container {
   background: white;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+  width: 50%;
+  margin: 20px auto;
+  text-align: center;
 }
 
-/* 🚀 Auf großen Screens 3 Spalten */
-@media (min-width: 1200px) {
-  .recipe-card {
-    width: 32%;
-  }
+.ingredient-container ul {
+  list-style: none;
+  padding: 0;
 }
 
-/* 🖥️ Mittelgroße Screens: 2 Spalten */
-@media (min-width: 900px) and (max-width: 1199px) {
-  .recipe-card {
-    width: 48%;
-  }
+.ingredient-container li {
+  font-size: 18px;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
 }
 
-/* 📱 Kleinere Screens: 1 Spalte */
-@media (max-width: 899px) {
-  .container {
-    max-width: 95%;
-  }
-
-  .recipe-card {
-    width: 100%;
-  }
+.ingredient-container li:last-child {
+  border-bottom: none;
 }

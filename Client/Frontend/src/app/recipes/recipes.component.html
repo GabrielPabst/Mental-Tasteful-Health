@@ -1,13 +1,20 @@
-<div class="ingredient-input-container">
-  <textarea [(ngModel)]="ingredients" placeholder="Zutaten eingeben..."></textarea>
-  <button (click)="searchIngredients()">Suche</button>
+<div class="upload-container" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+  <p>📂 Ziehe eine Datei hierher oder</p>
+  <input type="file" (change)="onFileSelected($event)">
+  <button (click)="analyzeImage()" [disabled]="!selectedFile">🔍 Bild analysieren</button>
 </div>
 
-<!-- Gefilterte Zutatenliste -->
-<div class="filtered-ingredients">
+<!-- Ladespinner -->
+<div class="loading-overlay" *ngIf="isLoading()">
+  <div class="spinner"></div>
+  <p>Analysiere Bild...</p>
+</div>
+
+<!-- Gefilterte Zutaten -->
+<div class="ingredient-container">
   <h3>Gefilterte Zutaten:</h3>
   <ul>
-    @for(ingredient of ingredientList(); track ingredient) {
+    @for (ingredient of ingredientList(); track ingredient) {
       <li>{{ ingredient }}</li>
     }
   </ul>
