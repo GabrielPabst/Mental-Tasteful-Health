@@ -3,19 +3,18 @@
   margin: 20px auto;
   padding: 20px;
   text-align: center;
-  background: white;
+  background: #F7F0F5;
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.7);
+  border: 3px solid #424242;
 }
 
-h1 {
-  color: #333;
-}
+
 
 .loading, .error, .no-recipes {
   margin: 20px 0;
   font-size: 18px;
-  color: red;
+  color: #519872;
 }
 
 .recipe-list {
@@ -24,7 +23,7 @@ h1 {
 }
 
 .recipe-card {
-  background: #f9f9f9;
+  background: #F7F0F5;
   border-radius: 8px;
   padding: 15px;
   margin: 10px 0;

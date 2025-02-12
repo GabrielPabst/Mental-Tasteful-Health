@@ -15,10 +15,12 @@
   justify-content: center;
   background-color: #F7F0F5;
   border-radius: 12px;
+  border: 3px solid #424242;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.7);
 }
 button {
   background-color: #519872;
-  color: white;
+  color: #F7F0F5;
   font-size: 16px;
   padding: 10px 20px;
   border: none;
@@ -28,4 +30,30 @@ button {
 
 button:hover {
   background-color: #B2D02D;
+}
+@media (max-width: 768px) {
+  .login-inner-container {
+    width: 80%;
+    height: auto;
+    padding: 20px;
+  }
+
+  button {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-inner-container {
+    width: 90%;
+    height: auto;
+    padding: 15px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
 }
