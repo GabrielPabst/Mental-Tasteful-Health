@@ -6,7 +6,7 @@
       <li>
         <input class="ingredient-list-element" type="text" (change)="editIngredient(ingredient)" [(ngModel)]="ingredient.ingredient_name">
         <input class="ingredient_checkbox" id="{{ingredient.ingredient_name}}" type="checkbox" (click)="selectIngredient(ingredient)">
-        <button (click)="removeIngredient(ingredient)">🗑️</button>
+        <button class="delete-box" (click)="removeIngredient(ingredient)">🗑️</button>
       </li>
     }
 

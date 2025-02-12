@@ -75,10 +75,23 @@ h1 {
   list-style-type: none;
 }
 
-.ingredient-list-element{
+.ingredient-list-element {
   border: none;
-  width: fit-content;
+  width: 70%; /* Breite etwas reduziert */
+  height: 35px; /* Etwas kleinere Höhe */
+  padding: 8px;
+  font-size: 16px;
+  box-sizing: border-box; /* Stellt sicher, dass Padding die Größe nicht verändert */
 }
+
+.delete-box{
+  width: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 /* Responsive Design */
 @media (max-width: 600px) {
