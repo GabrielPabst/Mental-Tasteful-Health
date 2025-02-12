@@ -181,7 +181,7 @@ def add_ingredient():
         cursor = conn.cursor()
         cursor.execute(
             'INSERT INTO fridge (ingredient_name) VALUES (%s) RETURNING id',
-             (new_ingredient['name'],)
+             (new_ingredient['ingredient_name'],)
            )
         ingredient_id = cursor.fetchone()[0]
         conn.commit()
@@ -210,7 +210,7 @@ def update_ingredient(id):
         cursor = conn.cursor()
         cursor.execute(
              'UPDATE fridge SET ingredient_name = %s WHERE id = %s RETURNING id',
-             (updated_ingredient['name'], id)
+             (updated_ingredient['ingredient_name'], id)
         )
         updated_id = cursor.fetchone()
         conn.commit()
