@@ -4,7 +4,7 @@ body{
 }
 
 button {
-  background: #BFD7EA;
+  background: #519872;
   color: white;
   cursor: pointer;
   border: none;
@@ -15,5 +15,5 @@ button {
 }
 
 button:hover{
-  background: #7babcc;
+  background: #B2D02D;
 }
