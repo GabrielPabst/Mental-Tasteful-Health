@@ -26,6 +26,8 @@ def get_recipes():
     # Find recipes that include all ingredients
     matching_recipes = RecipeGenerator().generateResponse(" ".join(ingredients), preffered_cuisine, recipe_count)
     matching_recipes = JsonFormatter(matching_recipes).remove_backticks()
+    if matching_recipes is "Keine Rezepte verfügbar":
+          return jsonify({"recipes": ""})
     try:
         matching_recipes = json.loads(matching_recipes)
     except json.JSONDecodeError:

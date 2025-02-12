@@ -8,7 +8,7 @@ import json
 def main():
     user_input = input("Enter your recipe request: ")
     generator = RecipeGenerator()
-    response = generator.generateResponse(user_input, "all")
+    response = generator.generateResponse(user_input, "all", 1)
     response = JsonFormatter(response).remove_backticks()
     print("Generated Recipe:", response)
 
