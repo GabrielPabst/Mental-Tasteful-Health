@@ -4,7 +4,7 @@
   <ul class="ingredient-list">
     @if (ingredientsList()?.length === 0) {
       <li>Keine Zutaten vorhanden</li>
-    } @else{
+    } @else {
       @for (ingredient of ingredientsList(); track ingredient.id) {
         <li>
           <input class="ingredient-list-element" type="text" (change)="editIngredient(ingredient)" [(ngModel)]="ingredient.ingredient_name">
@@ -19,14 +19,12 @@
     <button (click)="selectAllIngredients()">Alle Produkte auswählen</button>
   </label>
 
-
   <input class="input-container" type="text" [(ngModel)]="cuisine" placeholder="Kategorie">
   <button (click)="openDialog(addIngredientDialog)">Zutat hinzufügen</button>
   <button (click)="generateMeal()">🍽️ Mahlzeit generieren</button>
 
-  <!-- Dialog-Container immer im DOM lassen -->
   <div class="dialog-container" [class.visible]="dialogOpen()">
-    <div class="dialog-overlay" *ngIf="dialogOpen()"></div>
+    <div class="dialog-overlay" @if="dialogOpen()"></div>
 
     <dialog class="dialog-window" #addIngredientDialog>
       <h2>Zutat hinzufügen</h2>
@@ -36,26 +34,24 @@
     </dialog>
   </div>
 
+  @if (isLoadingRecipes()) {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Rezepte werden geladen...</p>
+    </div>
+  }
 
-
-  <!-- Ladespinner für Rezeptgenerierung -->
-  <div class="loading-overlay" *ngIf="isLoadingRecipes()">
-    <div class="spinner"></div>
-    <p>Rezepte werden geladen...</p>
-  </div>
-
-  <!-- Ladespinner für detaillierte Rezeptschritte -->
-  <div class="loading-overlay" *ngIf="isLoadingDetails()">
-    <div class="spinner"></div>
-    <p>Detaillierte Schritte werden geladen...</p>
-  </div>
-
-
+  @if (isLoadingDetails()) {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Detaillierte Schritte werden geladen...</p>
+    </div>
+  }
 
   @if (recipes().length > 0) {
     <div class="recipe-container">
       <h2>Gefundene Rezepte:</h2>
-      @for(recipe of recipes(); track recipe.name) {
+      @for (recipe of recipes(); track recipe.name) {
         <h3>{{ recipe.name }}</h3>
         <p><strong>Heiß oder kalt:</strong> {{ recipe.hotOrCold }}</p>
         <p><strong>Gesund:</strong> {{ recipe.healthy ? 'Ja' : 'Nein' }}</p>
@@ -63,7 +59,7 @@
         <p><strong>Zubereitung:</strong> {{ recipe.howToCook }}</p>
         <h4>Zutaten:</h4>
         <ul>
-          @for(ingredient of recipe.ingredients; track ingredient) {
+          @for (ingredient of recipe.ingredients; track ingredient) {
             <li>{{ ingredient }}</li>
           }
         </ul>
@@ -89,5 +85,4 @@
       </div>
     </div>
   }
-
 </div>
