@@ -83,14 +83,13 @@
   @if (detailedRecipe()) {
     <div class="modal-overlay" (click)="closeModal()">
       <div class="modal" (click)="$event.stopPropagation()">
-        <button class="close-button" (click)="closeModal()">Schließen</button>
-        <h2>{{ detailedRecipe()?.detailed_recipe?.name }}</h2>
+        <h1>{{ detailedRecipe()?.detailed_recipe?.name }}</h1>
 
-        <h3>Detaillierte Schritte:</h3>
+        <p><u>Detaillierte Schritte:</u></p>
 
         <ol class="detailed-steps">
           @for (step of detailedRecipe()?.detailed_recipe?.detailed_steps; track step) {
-            <li>{{ step }}</li>
+            <li class="steps">{{ step.replace("Schritt", "") }}</li>
           }
         </ol>
       </div>

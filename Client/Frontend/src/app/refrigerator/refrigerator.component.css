@@ -129,9 +129,14 @@ h1 {
 }
 
 .detailed-steps {
+
   list-style-type: none;
 }
 
+.steps{
+  display: flex;
+  padding: 0.3rem;
+}
 
 .ingredient-list-element {
   border: none;
@@ -194,24 +199,15 @@ strong {
 
 /* Das Modal selbst */
 .modal {
-  background-color: #fff;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  background-color: #F7F0F5;
   padding: 1.5rem;
   border-radius: 8px;
   max-width: 600px;
   width: 90%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   position: relative;
-}
-
-/* Schließen-Button im Modal */
-.close-button {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: transparent;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
 }
 
 .recipe-header {
