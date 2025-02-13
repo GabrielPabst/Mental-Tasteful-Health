@@ -6,7 +6,7 @@ interface Recipe {
   id: number;
   name: string;
   ingredients: string[];
-  howToCook: string;
+  how_to_cook: string;
   allergies: string[];
   healthy: boolean;
   hotOrCold: string;
@@ -39,6 +39,7 @@ export class FavouritePageComponent {
     try {
       const response = await lastValueFrom(this.http.get<Recipe[]>('http://127.0.0.1:5000/fav-recipes'));
       this.recipes.set(response);
+      console.log(this.recipes()[0].how_to_cook);
       console.log("✅ Lieblingsrezepte geladen:", response);
     } catch (error) {
       console.error("❌ Fehler beim Laden der Lieblingsrezepte:", error);

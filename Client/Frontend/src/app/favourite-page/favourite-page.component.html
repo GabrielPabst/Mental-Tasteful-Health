@@ -23,7 +23,7 @@
               <span class="remove-btn" (click)="removeFromFavourites(recipe.id)">⭐</span>
             </div>
             <p><strong>Zutaten:</strong> {{ recipe.ingredients.join(', ') }}</p>
-            <p><strong>Zubereitung:</strong> {{ recipe.howToCook }}</p>
+            <p><strong>Zubereitung:</strong> {{ recipe.how_to_cook }}</p>
             <p><strong>Allergien:</strong> {{ recipe.allergies.length > 0 ? recipe.allergies.join(', ') : 'Keine' }}</p>
             <p><strong>Gesund:</strong> {{ recipe.healthy ? 'Ja ✅' : 'Nein ❌' }}</p>
             <p><strong>Warm/Kalt:</strong> {{ recipe.hotOrCold === 'hot' ? '🌡️ Warm' : '❄️ Kalt' }}</p>

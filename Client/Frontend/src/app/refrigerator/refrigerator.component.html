@@ -19,7 +19,7 @@
     <button (click)="selectAllIngredients()">Alle Produkte auswählen</button>
   </label>
 
-  <input class="input-container" type="text" [(ngModel)]="cuisine" placeholder="Kategorie">
+  <input class="input-ingredient-input" type="text" [(ngModel)]="cuisine" placeholder="Kategorie">
   <button (click)="openDialog(addIngredientDialog)">Zutat hinzufügen</button>
   <button (click)="generateMeal()">🍽️ Mahlzeit generieren</button>
 
@@ -30,10 +30,14 @@
     }
 
     <dialog class="dialog-window" #addIngredientDialog>
-      <h2>Zutat hinzufügen</h2>
-      <input class="input-container" type="text" [(ngModel)]="newIngredient" placeholder="Zutat">
-      <button class="input-container-button" (click)="addIngredient(addIngredientDialog)">Hinzufügen</button>
-      <button class="input-container-button" (click)="closeDialog(addIngredientDialog)">Abbrechen</button>
+      <div class="input-ingredient-container">
+        <h2>Zutat hinzufügen</h2>
+        <input class="input-ingredient-input" type="text" [(ngModel)]="newIngredient" placeholder="Zutat">
+        <div class="input-ingredient-buttons">
+          <button (click)="addIngredient(addIngredientDialog)">Hinzufügen</button>
+          <button (click)="closeDialog(addIngredientDialog)">Abbrechen</button>
+        </div>
+      </div>
     </dialog>
   </div>
 

@@ -21,7 +21,13 @@ h1 {
   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
 }
 
-.input-container{
+.input-ingredient-container{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-ingredient-input{
   width: 90%;
   padding: 0.5rem;
   font-size: 1.2rem;
@@ -29,9 +35,11 @@ h1 {
   border-radius: 8px;
   margin-bottom: 1rem;
 }
-.input-container-button{
-  margin-right: 15px;
 
+.input-ingredient-buttons{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .dialog-window {
   width: 85vw;
