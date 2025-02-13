@@ -124,6 +124,7 @@ h1 {
   list-style-type: none;
 }
 
+
 .ingredient-list-element {
   border: none;
   width: 70%; /* Breite etwas reduziert */
@@ -138,12 +139,6 @@ h1 {
   cursor: pointer;
   display: flex;
   justify-content: center;
-  align-items: center;
-}
-
-.recipe-header {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -214,6 +209,30 @@ h1 {
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
+}
+
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recipe-container{
+  padding: 3rem;
+  gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+}
+
+.recipe{
+  max-width: 30rem;
+  padding: 2rem;
+  background-color: #F7F0F5;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  justify-content: space-between;
 }
 
 /* ------------------ Zusätzliche Modal-Stile ------------------ */

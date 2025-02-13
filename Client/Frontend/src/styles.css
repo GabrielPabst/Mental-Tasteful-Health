@@ -8,6 +8,7 @@ body{
   animation: gradientAnimation 10s ease infinite;
 }
 
+
 @keyframes gradientAnimation {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -27,6 +28,9 @@ button {
 
 button:hover{
   background: #B2D02D;
+}
+p{
+  font-family: "Poppins", sans-serif;
 }
 h1 {
   color: #017CF1;
