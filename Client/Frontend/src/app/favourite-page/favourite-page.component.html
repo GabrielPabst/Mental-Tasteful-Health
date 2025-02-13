@@ -27,6 +27,8 @@
             <p><strong>Allergene:</strong> {{ recipe.allergies.length > 0 ? recipe.allergies.join(', ') : 'Keine' }}</p>
             <p><strong>Gesund:</strong> {{ recipe.healthy ? 'Ja ✅' : 'Nein ❌' }}</p>
             <p><strong>Warm/Kalt:</strong> {{ recipe.hotOrCold === 'hot' ? '🌡️ Warm' : '❄️ Kalt' }}</p>
+
+            <button>Detaillierte Schritte anzeigen</button>
           </div>
         </li>
       }
