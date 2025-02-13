@@ -62,7 +62,10 @@
         <div class="recipe">
           <div class="recipe-header">
             <h1>{{ recipe.name }}</h1>
-            <span class="remove-btn" (click)="addRecipeToFavourites(recipe)">{{isStarFavorite() ? '💖' : '🖤'}}</span>
+            <span class="remove-btn" (click)="addRecipeToFavourites(recipe)">
+                {{ isStarFavoriteMap()?.get(recipe.name) ? '💖' : '🖤' }}
+            </span>
+
           </div>
           <p><strong>Heiß oder kalt:</strong> {{ recipe.hotOrCold }}</p>
           <p><strong>Gesund:</strong> {{ recipe.healthy ? 'Ja' : 'Nein' }}</p>

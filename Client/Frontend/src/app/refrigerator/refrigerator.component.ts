@@ -35,7 +35,7 @@ export class RefrigeratorComponent implements OnInit {
 
   dialogOpen = signal<boolean>(false);
 
-  isStarFavorite = signal<boolean>(false);
+  isStarFavoriteMap = signal<Map<string, boolean>>(new Map());
 
 
 
@@ -226,9 +226,20 @@ export class RefrigeratorComponent implements OnInit {
   }
 
   async addRecipeToFavourites(recipe: Recipe) {
-    try{
-      this.isStarFavorite.set(true);
-      const response = await firstValueFrom(
+    try {
+      // Favoriten-Status für das aktuelle Rezept umschalten
+      const currentFavorites = this.isStarFavoriteMap();
+      const isFav = currentFavorites.get(recipe.name) || false;
+
+      // Kopiere die Map, um Angular das Signal-Update zu ermöglichen
+      const updatedFavorites = new Map(currentFavorites);
+      updatedFavorites.set(recipe.name, !isFav);
+
+      // Setze das aktualisierte Signal
+      this.isStarFavoriteMap.set(updatedFavorites);
+
+      // Sende das Rezept an die API
+      await firstValueFrom(
         this.http.post<number>("http://127.0.0.1:5000/fav-recipes/add", {
           name: recipe.name,
           ingredients: recipe.ingredients,
@@ -237,12 +248,12 @@ export class RefrigeratorComponent implements OnInit {
           healthy: recipe.healthy,
           hotOrCold: recipe.hotOrCold,
           userID: 0
-        }));
-
-      console.log(response);
+        })
+      );
 
     } catch (error) {
       console.error('Error while adding recipe to favourites:', error);
     }
   }
+
 }
