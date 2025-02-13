@@ -40,20 +40,35 @@ h1 {
   left: 50%;
   transform: translateX(-50%);
   border-radius: 8px;
+  z-index: 1001; /* Stellt sicher, dass das Fenster über dem Overlay ist */
+}
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Overlay liegt unter dem Dialog */
 }
 
 /* Adjust for larger screens */
-@media (min-width: 768px) { /* Tablets and up */
+@media (min-width: 768px) {
   .dialog-window {
     width: 50vw;
     max-width: 600px;
     top: 32%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Centers it fully */
+    transform: translate(-50%, -50%);
   }
 }
 
-@media (min-width: 1200px) { /* Desktop screens */
+@media (min-width: 1200px) {
   .dialog-window {
     width: 40vw;
     max-width: 500px;
@@ -61,7 +76,6 @@ h1 {
     left: 35%;
   }
 }
-
 
 
 
@@ -156,6 +170,7 @@ h1 {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Halbtransparentes Schwarz */
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -219,6 +234,7 @@ h1 {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
   color: white;
   font-size: 20px;
   font-family: "Poppins", sans-serif;

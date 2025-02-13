@@ -33,6 +33,8 @@ export class RefrigeratorComponent implements OnInit {
   isLoadingRecipes = signal<boolean>(false);
   isLoadingDetails = signal<boolean>(false);
 
+  dialogOpen = signal<boolean>(false);
+
 
 
   constructor(private http: HttpClient) {
@@ -161,6 +163,16 @@ export class RefrigeratorComponent implements OnInit {
     this.detailedRecipe.set(null);
   }
 
+  openDialog(dialog: HTMLDialogElement) {
+    dialog.show();
+    this.dialogOpen.set(true);
+  }
+
+  closeDialog(dialog: HTMLDialogElement) {
+    dialog.close();
+    this.dialogOpen.set(false);
+  }
+
   async addIngredient(addIngredientDialog: HTMLDialogElement) {
     if(this.newIngredient() === '') {
       alert("Bitte geben Sie eine Zutat ein.");
@@ -176,6 +188,7 @@ export class RefrigeratorComponent implements OnInit {
 
       addIngredientDialog.close();
       this.newIngredient.set('');
+      this.dialogOpen.set(false);
 
     } catch (error) {
       console.error('Fehler beim Hinzufügen einer Zutat:', error);

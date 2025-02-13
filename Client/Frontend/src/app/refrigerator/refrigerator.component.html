@@ -21,15 +21,22 @@
 
 
   <input class="input-container" type="text" [(ngModel)]="cuisine" placeholder="Kategorie">
-  <button (click)="addIngredientDialog.show()">Zutat hinzufügen</button>
+  <button (click)="openDialog(addIngredientDialog)">Zutat hinzufügen</button>
   <button (click)="generateMeal()">🍽️ Mahlzeit generieren</button>
 
-  <dialog class="dialog-window" #addIngredientDialog>
-    <h2>Zutat hinzufügen</h2>
-    <input class="input-container" type="text" [(ngModel)]="newIngredient" placeholder="Zutat">
-    <button class="input-container-button" (click)="addIngredient(addIngredientDialog)">Hinzufügen</button>
-    <button class="input-container-button" (click)="addIngredientDialog.close()">Abbrechen</button>
-  </dialog>
+  <!-- Dialog-Container immer im DOM lassen -->
+  <div class="dialog-container" [class.visible]="dialogOpen()">
+    <div class="dialog-overlay" *ngIf="dialogOpen()"></div>
+
+    <dialog class="dialog-window" #addIngredientDialog>
+      <h2>Zutat hinzufügen</h2>
+      <input class="input-container" type="text" [(ngModel)]="newIngredient" placeholder="Zutat">
+      <button class="input-container-button" (click)="addIngredient(addIngredientDialog)">Hinzufügen</button>
+      <button class="input-container-button" (click)="closeDialog(addIngredientDialog)">Abbrechen</button>
+    </dialog>
+  </div>
+
+
 
   <!-- Ladespinner für Rezeptgenerierung -->
   <div class="loading-overlay" *ngIf="isLoadingRecipes()">
