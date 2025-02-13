@@ -23,8 +23,11 @@
   <button (click)="openDialog(addIngredientDialog)">Zutat hinzufügen</button>
   <button (click)="generateMeal()">🍽️ Mahlzeit generieren</button>
 
+
   <div class="dialog-container" [class.visible]="dialogOpen()">
-    <div class="dialog-overlay" @if="dialogOpen()"></div>
+    @if (dialogOpen()) {
+      <div class="dialog-overlay"></div>
+    }
 
     <dialog class="dialog-window" #addIngredientDialog>
       <h2>Zutat hinzufügen</h2>
@@ -52,7 +55,11 @@
     <div class="recipe-container">
       <h2>Gefundene Rezepte:</h2>
       @for (recipe of recipes(); track recipe.name) {
-        <h3>{{ recipe.name }}</h3>
+
+        <div class="recipe-header">
+          <h3>{{ recipe.name }}</h3>
+          <span class="remove-btn" (click)="addRecipeToFavourites(recipe)">⭐</span>
+        </div>
         <p><strong>Heiß oder kalt:</strong> {{ recipe.hotOrCold }}</p>
         <p><strong>Gesund:</strong> {{ recipe.healthy ? 'Ja' : 'Nein' }}</p>
         <p><strong>Allergien:</strong> {{ recipe.allergies.join(', ') }}</p>

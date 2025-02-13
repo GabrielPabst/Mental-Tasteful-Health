@@ -141,6 +141,23 @@ h1 {
   align-items: center;
 }
 
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remove-btn {
+  cursor: pointer;
+  font-size: 24px;
+  color: gold;
+  transition: 0.3s;
+}
+
+.remove-btn:hover {
+  color: red;
+}
+
 
 /* Responsive Design */
 @media (max-width: 600px) {

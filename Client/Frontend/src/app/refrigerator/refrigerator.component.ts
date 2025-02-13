@@ -90,7 +90,6 @@ export class RefrigeratorComponent implements OnInit {
     if(this.selectedIngredientsList().length !== 0) {
       this.isLoadingRecipes.set(true);
       try {
-        console.log(this.cuisine());
         const response = await firstValueFrom(
           this.http.post<RecipiesResDto>(
             'http://127.0.0.1:5000/get_recipes',
@@ -99,8 +98,6 @@ export class RefrigeratorComponent implements OnInit {
                   recipe_count: this.maxRecipeCount()}
           )
         );
-
-        console.log(response);
 
         if(response.recipes.recipies.length === 0) {
           alert("Es wurden keine Rezepte gefunden.");
@@ -114,12 +111,16 @@ export class RefrigeratorComponent implements OnInit {
               howToCook: recipe.howToCook,
               allergies: recipe.allergies,
               healthy: recipe.healthy,
-              hotOrCold: recipe.hotOrCold
+              hotOrCold: recipe.hotOrCold,
             };
           })
         );
         this.isLoadingRecipes.set(false);
+
+
       } catch (error) {
+        this.isLoadingRecipes.set(false);
+        alert("Error while fetching recipes: " + error);
         console.error('Fehler beim Abrufen der Rezepte (Test):', error);
       }
     }
@@ -219,6 +220,26 @@ export class RefrigeratorComponent implements OnInit {
     }
     catch (e) {
       console.log("Error while updating ingredient: ", e);
+    }
+  }
+
+  async addRecipeToFavourites(recipe: Recipe) {
+    try{
+      const response = await firstValueFrom(
+        this.http.post<number>("http://127.0.0.1:5000/fav-recipes/add", {
+          name: recipe.name,
+          ingredients: recipe.ingredients,
+          howToCook: recipe.howToCook,
+          allergies: recipe.allergies,
+          healthy: recipe.healthy,
+          hotOrCold: recipe.hotOrCold,
+          userID: 0
+        }));
+
+      console.log(response);
+
+    } catch (error) {
+      console.error('Error while adding recipe to favourites:', error);
     }
   }
 }
