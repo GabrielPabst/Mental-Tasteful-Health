@@ -10,7 +10,7 @@ import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-refrigerator',
-  imports: [FormsModule, NgIf],
+  imports: [FormsModule],
   templateUrl: './refrigerator.component.html',
   standalone: true,
   styleUrls: ['./refrigerator.component.css']
@@ -38,7 +38,6 @@ export class RefrigeratorComponent implements OnInit {
 
 
   constructor(private http: HttpClient) {
-
   }
 
   async ngOnInit() {
@@ -65,7 +64,6 @@ export class RefrigeratorComponent implements OnInit {
     } else {
       this.selectedIngredientsList.set([...this.selectedIngredientsList(), ingredient.ingredient_name]);
     }
-    console.log(this.selectedIngredientsList());
   }
 
   removeIngredientFromSelectedList(ingredient: string) {
@@ -78,7 +76,6 @@ export class RefrigeratorComponent implements OnInit {
   selectAllIngredients() {
     this.ingredientsList()?.forEach((ingredient) => {
       const checkbox = document.getElementById(ingredient.ingredient_name) as HTMLInputElement;
-      console.log(checkbox);
 
       if(!checkbox.checked) {
         checkbox.checked = true;
