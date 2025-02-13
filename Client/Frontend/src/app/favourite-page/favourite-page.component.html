@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>⭐ Deine Lieblingsrezepte</h1>
+  <h1>💖 Deine Lieblingsrezepte</h1>
 
   @if (isLoading()) {
     <div class="loading">
@@ -20,7 +20,7 @@
           <div class="recipe-card">
             <div class="recipe-header">
               <h2>{{ recipe.name }}</h2>
-              <span class="remove-btn" (click)="removeFromFavourites(recipe.id)">⭐</span>
+              <span class="remove-btn" (click)="removeFromFavourites(recipe.id)">💖</span>
             </div>
             <p><strong>Zutaten:</strong> {{ recipe.ingredients.join(', ') }}</p>
             <p><strong>Zubereitung:</strong> {{ recipe.how_to_cook }}</p>
