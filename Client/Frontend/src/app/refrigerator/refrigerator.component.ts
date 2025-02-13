@@ -35,6 +35,8 @@ export class RefrigeratorComponent implements OnInit {
 
   dialogOpen = signal<boolean>(false);
 
+  isStarFavorite = signal<boolean>(false);
+
 
 
   constructor(private http: HttpClient) {
@@ -225,6 +227,7 @@ export class RefrigeratorComponent implements OnInit {
 
   async addRecipeToFavourites(recipe: Recipe) {
     try{
+      this.isStarFavorite.set(true);
       const response = await firstValueFrom(
         this.http.post<number>("http://127.0.0.1:5000/fav-recipes/add", {
           name: recipe.name,
