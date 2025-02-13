@@ -29,7 +29,7 @@ button {
 button:hover{
   background: #B2D02D;
 }
-p{
+p, li, ul, ol{
   font-family: "Poppins", sans-serif;
 }
 h1 {

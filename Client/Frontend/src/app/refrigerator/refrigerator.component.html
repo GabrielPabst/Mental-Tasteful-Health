@@ -64,9 +64,9 @@
           <p><strong>Gesund:</strong> {{ recipe.healthy ? 'Ja' : 'Nein' }}</p>
           <p><strong>Allergien:</strong> {{ recipe.allergies.join(', ') }}</p>
           <p><strong>Zubereitung:</strong> {{ recipe.howToCook }}</p>
-          <h4>Zutaten:</h4>
+          <p><strong>Zutaten:</strong></p>
           <ul>
-            @for (ingredient of recipe.ingredients; track ingredient) {
+            @for (ingredient of recipe.ingredients; track $index) {
               <li>{{ ingredient }}</li>
             }
           </ul>

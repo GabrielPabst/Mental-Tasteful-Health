@@ -153,24 +153,15 @@ h1 {
   color: red;
 }
 
-
-/* Responsive Design */
-@media (max-width: 600px) {
-  .refrigerator-content {
-    max-width: 90%;
-    width: 100%;
-    padding: 1rem;
-  }
-
-  .ingredient-list li {
-    font-size: 1rem;
-    padding: 0.8rem;
-  }
-
-  .generate-meal-button {
-    width: 100%;
-  }
+.recipe-container{
+  padding: 3rem;
+  gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-items: center;
 }
+
+
 
 /* ------------------ Modal CSS ------------------ */
 
@@ -217,16 +208,8 @@ h1 {
   align-items: center;
 }
 
-.recipe-container{
-  padding: 3rem;
-  gap: 1rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-content: center;
-}
-
 .recipe{
-  max-width: 30rem;
+  max-width: 35rem;
   padding: 2rem;
   background-color: #F7F0F5;
   display: flex;
@@ -290,4 +273,32 @@ h1 {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+
+  .recipe-container {
+    display: block;
+    place-items: center;
+  }
+
+  .refrigerator-content {
+    max-width: 90%;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .ingredient-list li {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  .generate-meal-button {
+    width: 100%;
+  }
+
+  .recipe {
+    min-height: 50rem;
+  }
 }
