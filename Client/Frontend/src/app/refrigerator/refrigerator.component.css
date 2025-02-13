@@ -161,6 +161,10 @@ h1 {
   place-items: center;
 }
 
+strong {
+  color: #017cf1;
+}
+
 
 
 /* ------------------ Modal CSS ------------------ */
@@ -299,6 +303,10 @@ h1 {
   }
 
   .recipe {
-    min-height: 50rem;
+    margin-top: 1rem;
+  }
+
+  strong{
+    color: #017cf1;
   }
 }

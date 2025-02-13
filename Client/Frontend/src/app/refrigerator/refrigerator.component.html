@@ -57,7 +57,7 @@
       @for (recipe of recipes(); track recipe.name) {
         <div class="recipe">
           <div class="recipe-header">
-            <h3>{{ recipe.name }}</h3>
+            <h1>{{ recipe.name }}</h1>
             <span class="remove-btn" (click)="addRecipeToFavourites(recipe)">⭐</span>
           </div>
           <p><strong>Heiß oder kalt:</strong> {{ recipe.hotOrCold }}</p>
