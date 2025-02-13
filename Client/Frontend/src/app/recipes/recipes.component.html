@@ -1,7 +1,9 @@
 <div class="upload-container" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
-  <p>📂 Ziehe eine Datei hierher oder</p>
-  <input type="file" (change)="onFileSelected($event)">
-  <button (click)="analyzeImage()" [disabled]="!selectedFile">🔍 Bild analysieren</button>
+  <label class="custom-file-upload">
+    <input type="file" (change)="onFileSelected($event)">
+    Foto auswählen
+  </label>
+  <button (click)="analyzeImage()" [disabled]="!selectedFile">Bild analysieren</button>
 </div>
 
 <!-- Ladespinner -->

@@ -2,7 +2,7 @@
 .upload-container {
   text-align: center;
   padding: 20px;
-  border: 2px dashed #424242; /* Dunklere Farbe für besseren Kontrast */
+  /*border: 2px dashed #424242; /* Dunklere Farbe für besseren Kontrast */
   border-radius: 12px;
   background: #F7F0F5;
   width: 50%;
@@ -75,6 +75,7 @@
   margin: 20px auto;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-size: 20px;
 }
 
 .ingredient-container ul {
@@ -145,3 +146,30 @@
   background: #e8e8e8; /* Weicher Grau-Ton für ein modernes Feeling */
   transition: background 0.2s ease-in-out;
 }
+
+
+.custom-file-upload {
+  display: inline-block;
+  background-color: #519872;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+  text-align: center;
+}
+
+.custom-file-upload:hover {
+  background-color: #43805f;
+}
+
+.custom-file-upload:active {
+  background-color: #B2D02D;
+}
+
+.custom-file-upload input {
+  display: none; /* Versteckt das eigentliche File-Input */
+}
+
